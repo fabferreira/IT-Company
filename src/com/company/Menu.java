@@ -59,20 +59,21 @@ public class Menu {
     }
 
     private static void projectsMenu() {
-        System.out.println("====== Project Menu ======");
-        System.out.println("Please Select one of the following options:");
-        System.out.println("1. Add New Project");
-        System.out.println("2. Remove Project");
-        System.out.println("3. Edit Project");
-        System.out.println("4. Back");
-
-        // Menu execution
         Scanner scanner = new Scanner(System.in);
         int actproj = 0;
-        while(actproj != 4)
+
+        while(actproj != 4) {
+
+            System.out.println("====== Project Menu ======");
+            System.out.println("Please Select one of the following options:");
+            System.out.println("1. Add New Project");
+            System.out.println("2. Remove Project");
+            System.out.println("3. Edit Project");
+            System.out.println("4. Back");
+
             actproj = scanner.nextInt();
             scanner.nextLine();
-            switch(actproj) {
+            switch (actproj) {
                 case 1:
                     addProject();
                     System.out.println("Project added");
@@ -98,157 +99,161 @@ public class Menu {
                     System.out.println();
                     break;
             }
+        }
     }
 
     private static void programmersMenu() {
-        System.out.println("====== Programmer Menu ======");
-        System.out.println("Please Select one of the following options:");
-        System.out.println("1. Add New Programmer");
-        System.out.println("2. Remove Programmer");
-        System.out.println("3. Edit Programmer");
-        System.out.println("4. Inactivate");
-        System.out.println("5. Back");
-
-        // Menu execution
         Scanner scanner = new Scanner(System.in);
         int actprog = 0;
-        while(actprog != 5)
+        while(actprog != 5) {
+
+            System.out.println("====== Programmer Menu ======");
+            System.out.println("Please Select one of the following options:");
+            System.out.println("1. Add New Programmer");
+            System.out.println("2. Remove Programmer");
+            System.out.println("3. Edit Programmer");
+            System.out.println("4. Inactivate");
+            System.out.println("5. Back");
+
             actprog = scanner.nextInt();
-        scanner.nextLine();
-        switch(actprog) {
-            case 1:
-                addProgrammer();
-                System.out.println("Programmer added");
-                break;
+            scanner.nextLine();
+            switch (actprog) {
+                case 1:
+                    addProgrammer();
+                    System.out.println("Programmer added");
+                    break;
 
-            case 2:
-                removeProgrammer();
-                System.out.println("Programmer removed");
-                break;
+                case 2:
+                    removeProgrammer();
+                    System.out.println("Programmer removed");
+                    break;
 
-            case 3:
-                editProgMenu();
-                System.out.println("Edition Completed");
-                break;
+                case 3:
+                    editProgMenu();
+                    System.out.println("Edition Completed");
+                    break;
 
-            case 4:
-                inactivateProgrammer();
-                break;
+                case 4:
+                    inactivateProgrammer();
+                    break;
 
-            case 5:
-                break;
+                case 5:
+                    break;
 
-            default:
-                System.out.println("************************************");
-                System.out.println("Please insert a valid option");
-                System.out.println("************************************");
-                System.out.println();
-                break;
+                default:
+                    System.out.println("************************************");
+                    System.out.println("Please insert a valid option");
+                    System.out.println("************************************");
+                    System.out.println();
+                    break;
+            }
         }
     }
 
     private static void editProjMenu() {
-        System.out.println("====== Edit Project ======");
-        System.out.println("Please Select one of the following options:");
-        System.out.println("1. Edit Name");
-        System.out.println("2. Edit Start Date");
-        System.out.println("3. Edit End Date");
-        System.out.println("4. Back");
-
-        // Menu execution
         Scanner scanner = new Scanner(System.in);
         int edproj = 0;
-        while(edproj != 4)
+        while(edproj != 4) {
+
+            System.out.println("====== Edit Project ======");
+            System.out.println("Please Select one of the following options:");
+            System.out.println("1. Edit Name");
+            System.out.println("2. Edit Start Date");
+            System.out.println("3. Edit End Date");
+            System.out.println("4. Back");
+
             edproj = scanner.nextInt();
-        scanner.nextLine();
-        switch(edproj) {
-            case 1:
-                // escolher o projecto
-                // mudar o nome
-                System.out.println("Name changed");
-                break;
+            scanner.nextLine();
+            switch (edproj) {
+                case 1:
+                    // escolher o projecto
+                    // mudar o nome
+                    System.out.println("Name changed");
+                    break;
 
-            case 2:
-                // escolher o projecto
-                // mudar a data de inicio
-                System.out.println("Start Date Changed");
-                break;
+                case 2:
+                    // escolher o projecto
+                    // mudar a data de inicio
+                    System.out.println("Start Date Changed");
+                    break;
 
-            case 3:
-                // escolher o projecto
-                // mudar a data de fim
-                System.out.println("End Date Changed");
-                break;
+                case 3:
+                    // escolher o projecto
+                    // mudar a data de fim
+                    System.out.println("End Date Changed");
+                    break;
 
-            case 4:
-                break;
+                case 4:
+                    break;
 
-            default:
-                System.out.println("************************************");
-                System.out.println("Please insert a valid option");
-                System.out.println("************************************");
-                System.out.println();
-                break;
+                default:
+                    System.out.println("************************************");
+                    System.out.println("Please insert a valid option");
+                    System.out.println("************************************");
+                    System.out.println();
+                    break;
+            }
         }
     }
 
     private static void editProgMenu() {
-        System.out.println("====== Edit Programmer ======");
-        System.out.println("Please Select one of the following options:");
-        System.out.println("1. Edit First Name");
-        System.out.println("2. Edit Last Name");
-        System.out.println("3. Edit Project");
-        System.out.println("4. Edit Activity");
-        System.out.println("5. Edit Start Date");
-        System.out.println("6. Edit End Date");
-        System.out.println("7. Back");
-
-        // Menu execution
         Scanner scanner = new Scanner(System.in);
         int edprog = 0;
-        while(edprog != 7)
+        while(edprog != 7) {
+
+            System.out.println("====== Edit Programmer ======");
+            System.out.println("Please Select one of the following options:");
+            System.out.println("1. Edit First Name");
+            System.out.println("2. Edit Last Name");
+            System.out.println("3. Edit Project");
+            System.out.println("4. Edit Activity");
+            System.out.println("5. Edit Start Date");
+            System.out.println("6. Edit End Date");
+            System.out.println("7. Back");
+
             edprog = scanner.nextInt();
-        scanner.nextLine();
-        switch(edprog) {
-            case 1:
-                //escolher o programador
-                //mudar o primeiro nome
-                System.out.println("Programmer's First Name changed");
-                break;
+            scanner.nextLine();
+            switch (edprog) {
+                case 1:
+                    //escolher o programador
+                    //mudar o primeiro nome
+                    System.out.println("Programmer's First Name changed");
+                    break;
 
-            case 2:
-                //escolher o programador
-                //mudar o ultimo nome
-                System.out.println("Programmer's Last Name changed");
-                break;
+                case 2:
+                    //escolher o programador
+                    //mudar o ultimo nome
+                    System.out.println("Programmer's Last Name changed");
+                    break;
 
-            case 3:
-                //escolher o programador
-                //mudar o projecto
-                System.out.println("Project Changed");
-                break;
+                case 3:
+                    //escolher o programador
+                    //mudar o projecto
+                    System.out.println("Project Changed");
+                    break;
 
-            case 4:
-                //escolher o programador
-                //mudar a data de inicio
-                System.out.println("Start Date Changed");
-                break;
+                case 4:
+                    //escolher o programador
+                    //mudar a data de inicio
+                    System.out.println("Start Date Changed");
+                    break;
 
-            case 5:
-                //escolher o programador
-                //mudar a data de fim
-                System.out.println("End Date Changed");
-                break;
+                case 5:
+                    //escolher o programador
+                    //mudar a data de fim
+                    System.out.println("End Date Changed");
+                    break;
 
-            case 6:
-                break;
+                case 6:
+                    break;
 
-            default:
-                System.out.println("************************************");
-                System.out.println("Please insert a valid option");
-                System.out.println("************************************");
-                System.out.println();
-                break;
+                default:
+                    System.out.println("************************************");
+                    System.out.println("Please insert a valid option");
+                    System.out.println("************************************");
+                    System.out.println();
+                    break;
+            }
         }
     }
 
