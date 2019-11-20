@@ -7,14 +7,22 @@ public class ActiveProgrammers implements Programmers{
     private String firstName;
     private String lastName;
     private boolean isActive;
-    private String status;
     private String project;
     private String activity;
-    private java.time.LocalDate startDate;
-    private java.time.LocalDate endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private int duration;
     private int workedDays;
     private double salary;
+
+    public ActiveProgrammers(String firstName, String lastName, String project, String activity, LocalDate startDate, LocalDate endDate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.project = project;
+        this.activity = activity;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -38,14 +46,6 @@ public class ActiveProgrammers implements Programmers{
 
     public void setActive(boolean active) {
         isActive = active;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getProject() {
