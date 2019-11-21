@@ -8,6 +8,7 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -15,6 +16,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 public class ManageDatabase {
 
@@ -188,6 +190,13 @@ public class ManageDatabase {
                 pOtherProjDays.appendChild(doc.createTextNode(otherProjectDays));
                 prog.appendChild(pOtherProjDays);
             }
+
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(new File("data.xml"));
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.transform(source, result);
         } catch(Exception e) {
             System.out.println(e.getMessage());
         }
