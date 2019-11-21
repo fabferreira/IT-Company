@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
         ArrayList<ProjectTeam> projects = new ArrayList<>();
-        ArrayList<Programmers> programmers = new ArrayList<>();
+        ArrayList<ActiveProgrammers> programmers = new ArrayList<>();
 
         ManageDatabase.load(projects, programmers);
 //        for (int i = 0; i < projects.size(); i++) {

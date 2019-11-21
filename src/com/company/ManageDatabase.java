@@ -8,13 +8,17 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ManageDatabase {
 
-    public static void load(ArrayList<ProjectTeam> projects, ArrayList<Programmers> programmers) {
+    public static void load(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers) {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -22,13 +26,13 @@ public class ManageDatabase {
 
             //Load projects list of the document
             NodeList projectList = doc.getElementsByTagName("project");
-            for (int i=0; i<projectList.getLength(); i++) {
+            for (int i = 0; i < projectList.getLength(); i++) {
                 Node p = projectList.item(i);
-                if(p.getNodeType()==Node.ELEMENT_NODE) {
+                if (p.getNodeType() == Node.ELEMENT_NODE) {
                     Element project = (Element) p;
                     int id = Integer.parseInt(project.getElementsByTagName("id").item(0).getTextContent());
                     String name = project.getElementsByTagName("name").item(0).getTextContent();
-                    LocalDate startDate =  LocalDate.parse(project.getElementsByTagName("startDate").item(0).getTextContent());
+                    LocalDate startDate = LocalDate.parse(project.getElementsByTagName("startDate").item(0).getTextContent());
                     LocalDate endDate = LocalDate.parse(project.getElementsByTagName("endDate").item(0).getTextContent());
                     projects.add(new ProjectTeam(id, name, startDate, endDate));
                 }
@@ -36,9 +40,9 @@ public class ManageDatabase {
 
             //Load programmer list of the document
             NodeList programmerList = doc.getElementsByTagName("programmer");
-            for (int i=0; i<programmerList.getLength(); i++) {
+            for (int i = 0; i < programmerList.getLength(); i++) {
                 Node p = programmerList.item(i);
-                if(p.getNodeType()==Node.ELEMENT_NODE) {
+                if (p.getNodeType() == Node.ELEMENT_NODE) {
                     Element program = (Element) p;
                     int id = Integer.parseInt(program.getElementsByTagName("id").item(0).getTextContent());
                     String salary = program.getElementsByTagName("salary").item(0).getTextContent();
@@ -47,13 +51,13 @@ public class ManageDatabase {
                     String project = program.getElementsByTagName("project").item(0).getTextContent();
                     String activity = program.getElementsByTagName("activity").item(0).getTextContent();
                     double wage = Integer.parseInt(program.getElementsByTagName("wage").item(0).getTextContent());
-                    LocalDate startDate =  LocalDate.parse(program.getElementsByTagName("startDate").item(0).getTextContent());
+                    LocalDate startDate = LocalDate.parse(program.getElementsByTagName("startDate").item(0).getTextContent());
                     LocalDate endDate = LocalDate.parse(program.getElementsByTagName("endDate").item(0).getTextContent());
                     int month = Integer.parseInt(program.getElementsByTagName("month").item(0).getTextContent());
                     int otherProjectDays = Integer.parseInt(program.getElementsByTagName("otherProjectDays").item(0).getTextContent());
                     if (project.equals("")) {
                         programmers.add(new ActiveProgrammers(id, firstName, lastName, wage, salary));
-                    } else{
+                    } else {
                         programmers.add(new ActiveProgrammers(id, firstName, lastName, true, project, activity, startDate, endDate, otherProjectDays, month, wage, salary));
                     }
                 }
@@ -63,23 +67,180 @@ public class ManageDatabase {
         }
     }
 
-    public static void save(ArrayList<ProjectTeam> projects, ArrayList<Programmers> programmers) {
-        DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+    public static void save(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers) {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
-            DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
-            Document document = documentBuilder.newDocument();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse("data.xml");
 
-            // root element
-            Element root = document.createElement("itCompany");
-            document.appendChild(root);
-
-            // write projects on the document
-            for (int i=0; i < projects.size(); i++) {
+            NodeList projectList = doc.getElementsByTagName("project");
+            //Delete projects from document
+            for (int i = 0; i < projectList.getLength(); i++) {
+                Node eachNode = projectList.item(i);
+                eachNode.getParentNode().removeChild(eachNode);
             }
 
-        } catch (Exception e) {
+            //Add projects from List to document
+            for (ProjectTeam project : projects) {
+                String id = String.valueOf(project.getId());
+                String name = project.getName();
+                String startDate = project.getStartDate().toString();
+                String endDate = project.getEndDate().toString();
+
+                // project element
+                NodeList projectsGroup = doc.getElementsByTagName("projects");
+                Element proj = doc.createElement("project");
+                projectsGroup.item(0).appendChild(proj);
+
+                // id element
+                Element pId = doc.createElement("id");
+                pId.appendChild(doc.createTextNode(id));
+                proj.appendChild(pId);
+
+                // name element
+                Element pName = doc.createElement("name");
+                pName.appendChild(doc.createTextNode(name));
+                proj.appendChild(pName);
+
+                // startDate element
+                Element pStart = doc.createElement("startDate");
+                pStart.appendChild(doc.createTextNode(startDate));
+                proj.appendChild(pStart);
+
+                // endDate element
+                Element pEnd = doc.createElement("endDate");
+                pEnd.appendChild(doc.createTextNode(endDate));
+                proj.appendChild(pEnd);
+            }
+
+            NodeList programmerList = doc.getElementsByTagName("programmer");
+            //Delete programmers from document
+            for (int i = 0; i < programmerList.getLength(); i++) {
+                Node eachNode = programmerList.item(i);
+                eachNode.getParentNode().removeChild(eachNode);
+            }
+
+            //Add projects from List to document
+            for (ActiveProgrammers programmer : programmers) {
+                String id = String.valueOf(programmer.getId());
+                String firstName = programmer.getFirstName();
+                String lastName = programmer.getLastName();
+                String project = programmer.getProject();
+                String activity = programmer.getActivity();
+                String wage = Double.toString(programmer.getWage());
+                String startDate = programmer.getStartDate().toString();
+                String endDate = programmer.getEndDate().toString();
+                String month = Integer.toString(programmer.getMonth());
+                String otherProjectDays = Integer.toString(programmer.getWorkedDays());
+
+                // programmer element
+                NodeList programmersGroup = doc.getElementsByTagName("programmers");
+                Element prog = doc.createElement("programmer");
+                programmersGroup.item(0).appendChild(prog);
+
+                // id element
+                Element pId = doc.createElement("id");
+                pId.appendChild(doc.createTextNode(id));
+                prog.appendChild(pId);
+
+                // firstName element
+                Element pFirstName = doc.createElement("firstName");
+                pFirstName.appendChild(doc.createTextNode(firstName));
+                prog.appendChild(pFirstName);
+
+                // lastName element
+                Element pLastName = doc.createElement("lastName");
+                pLastName.appendChild(doc.createTextNode(lastName));
+                prog.appendChild(pLastName);
+
+                // project element
+                Element pProject = doc.createElement("project");
+                pProject.appendChild(doc.createTextNode(project));
+                prog.appendChild(pProject);
+
+                // activity element
+                Element pActivity = doc.createElement("activity");
+                pActivity.appendChild(doc.createTextNode(activity));
+                prog.appendChild(pActivity);
+
+                // wage element
+                Element pWage = doc.createElement("wage");
+                pWage.appendChild(doc.createTextNode(wage));
+                prog.appendChild(pWage);
+
+                // startDate element
+                Element pStart = doc.createElement("startDate");
+                pStart.appendChild(doc.createTextNode(startDate));
+                prog.appendChild(pStart);
+
+                // endDate element
+                Element pEnd = doc.createElement("endDate");
+                pEnd.appendChild(doc.createTextNode(endDate));
+                prog.appendChild(pEnd);
+
+                // month element
+                Element pMonth = doc.createElement("month");
+                pMonth.appendChild(doc.createTextNode(month));
+                prog.appendChild(pMonth);
+
+                // otherProjectDays element
+                Element pOtherProjDays = doc.createElement("otherProjectDays");
+                pOtherProjDays.appendChild(doc.createTextNode(otherProjectDays));
+                prog.appendChild(pOtherProjDays);
+            }
+        } catch(Exception e) {
             System.out.println(e.getMessage());
         }
+    }
 
+    public static void updateProject(ArrayList<ProjectTeam> Element, int id, String tagName, String newValue) {
+        //update Project info in arrayList
+        for (ProjectTeam elem : Element ) {
+            if (elem.getId() == id) {
+                switch (tagName) {
+                    case "name":
+                        elem.setName(newValue);
+
+                    case "startDate":
+                        elem.setStartDate(LocalDate.parse(newValue));
+
+                    case "endDate":
+                        elem.setEndDate(LocalDate.parse(newValue));
+
+                    default:
+                        System.out.println("wrong tagName");
+                }
+            }
+        }
+    }
+
+    public static void updateProgrammer(ArrayList<ActiveProgrammers> Element, int id, String tagName, String newValue) {
+        //update Programmer info in arrayList
+        for (ActiveProgrammers elem : Element ) {
+            if (elem.getId() == id) {
+                switch (tagName) {
+                    case "firstName":
+                        elem.setFirstName(newValue);
+
+                    case "lastName":
+                        elem.setLastName(newValue);
+
+                    case "project":
+                        elem.setProject(newValue);
+
+                    case "activity":
+                        elem.setProject(newValue);
+
+                    case "startDate":
+                        elem.setStartDate(LocalDate.parse(newValue));
+
+                    case "endDate":
+                        elem.setEndDate(LocalDate.parse(newValue));
+
+                    default:
+                        System.out.println("wrong tagName");
+                }
+            }
+        }
     }
 }

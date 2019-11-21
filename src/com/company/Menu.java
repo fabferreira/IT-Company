@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Menu {
 
-    public static void menu(ArrayList<ProjectTeam> projetcs, ArrayList<Programmers> programmers) {
+    public static void menu(ArrayList<ProjectTeam> projetcs, ArrayList<ActiveProgrammers> programmers) {
         Scanner scanner = new Scanner(System.in);
         boolean quit = false;
 
