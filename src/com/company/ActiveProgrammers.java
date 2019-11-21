@@ -11,17 +11,36 @@ public class ActiveProgrammers implements Programmers{
     private String activity;
     private LocalDate startDate;
     private LocalDate endDate;
-    private int duration;
     private int workedDays;
-    private double salary;
+    private int month;
+    private double wage;
+    private String salary;
 
-    public ActiveProgrammers(String firstName, String lastName, String project, String activity, LocalDate startDate, LocalDate endDate) {
+    public ActiveProgrammers(int id, String firstName, String lastName, double wage, String salary) {
+        this(id, firstName, lastName, false, "", "", LocalDate.parse("0000-00-00"), LocalDate.parse("0000-00-00"), 0, LocalDate.now().getMonthValue(), wage, salary);
+    }
+
+    public ActiveProgrammers(int id, String firstName, String lastName, boolean isActive, String project, String activity, LocalDate startDate, LocalDate endDate, int workedDays, int month, double wage, String salary) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.isActive = isActive;
         this.project = project;
         this.activity = activity;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.workedDays = workedDays;
+        this.month = month;
+        this.wage = wage;
+        this.salary = salary;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -78,6 +97,38 @@ public class ActiveProgrammers implements Programmers{
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public int getWorkedDays() {
+        return workedDays;
+    }
+
+    public void setWorkedDays(int workedDays) {
+        this.workedDays = workedDays;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public double getWage() {
+        return wage;
+    }
+
+    public void setWage(double wage) {
+        this.wage = wage;
+    }
+
+    public String getSalary() {
+        return salary;
+    }
+
+    public void setSalary(String salary) {
+        this.salary = salary;
     }
 
     @Override
