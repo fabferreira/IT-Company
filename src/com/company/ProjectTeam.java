@@ -8,7 +8,8 @@ public class ProjectTeam {
     private java.time.LocalDate startDate;
     private java.time.LocalDate endDate;
 
-    public ProjectTeam(String name, LocalDate startDate, LocalDate endDate) {
+    public ProjectTeam(int id, String name, LocalDate startDate, LocalDate endDate) {
+        this.id = id;
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;

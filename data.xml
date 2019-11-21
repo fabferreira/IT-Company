@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<itCompany>
+	<projects>
+		<project>
+			<id>1</id>
+			<name>Java SE</name>
+			<startDate>2019-10-01</startDate>
+			<endDate>2019-11-30</endDate>
+		</project>
+		<project>
+			<id>2</id>
+			<name>Angular</name>
+			<startDate>2019-09-01</startDate>
+			<endDate>2019-12-31</endDate>
+		</project>
+	</projects>
+	<programmers>
+		<programmer>
+			<id>1</id>
+			<salary>full</salary>
+			<firstName>Joaquim</firstName>
+			<lastName>Marmita</lastName>
+			<project>Java SE</project>
+			<activity>backend</activity>
+            <wage>950.00</wage>
+			<startDate>2019-10-01</startDate>
+			<endDate>2019-11-10</endDate>
+			<month>10</month>
+			<otherProjectdays>0</otherProjectdays>
+		</programmer>
+		<programmer>
+			<id>2</id>
+			<salary>half</salary>
+			<firstName>Maria</firstName>
+			<lastName>Artista</lastName>
+			<project>Java SE</project>
+			<activity>design</activity>
+            <wage>950.00</wage>
+			<startDate>2019-10-01</startDate>
+			<endDate>2019-10-31</endDate>
+			<month>10</month>
+			<otherProjectdays>0</otherProjectdays>
+		</programmer>
+		<programmer>
+			<id>3</id>
+			<salary>full</salary>
+			<firstName>Manuel</firstName>
+			<lastName>Geleira</lastName>
+			<project>Angular</project>
+			<activity>frontend</activity>
+            <wage>950.00</wage>
+			<startDate>2019-10-01</startDate>
+			<endDate>2019-11-10</endDate>
+			<month>10</month>
+			<otherProjectdays>0</otherProjectdays>
+		</programmer>
+		<programmer>
+			<id>4</id>
+			<salary>half</salary>
+			<firstName>Joana</firstName>
+			<lastName>D'art</lastName>
+			<project>Angular</project>
+			<activity>design</activity>
+            <wage>950.00</wage>
+			<startDate>2019-10-01</startDate>
+			<endDate>2019-10-31</endDate>
+			<month>10</month>
+			<otherProjectdays>0</otherProjectdays>
+		</programmer>
+	</programmers>
+</itCompany>

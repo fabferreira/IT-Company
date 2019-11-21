@@ -1,10 +1,11 @@
 package com.company;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
 
-    public Menu() {
+    public static void menu(ArrayList<ProjectTeam> projetcs, ArrayList<Programmers> programmers) {
         Scanner scanner = new Scanner(System.in);
         boolean quit = false;
 
@@ -135,6 +136,7 @@ public class Menu {
 
                 case 4:
                     inactivateProgrammer();
+                    System.out.println("Programmer inactivated");
                     break;
 
                 case 5:
@@ -235,16 +237,22 @@ public class Menu {
                 case 4:
                     //escolher o programador
                     //mudar a data de inicio
-                    System.out.println("Start Date Changed");
+                    System.out.println("Activity Changed");
                     break;
 
                 case 5:
                     //escolher o programador
                     //mudar a data de fim
-                    System.out.println("End Date Changed");
+                    System.out.println("Start Date Changed");
                     break;
 
                 case 6:
+                    //escolher o programador
+                    //mudar a data de fim
+                    System.out.println("End Date Changed");
+                    break;
+
+                case 7:
                     break;
 
                 default:
