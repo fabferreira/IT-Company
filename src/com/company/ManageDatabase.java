@@ -27,6 +27,7 @@ public class ManageDatabase {
 
             //Load projects list of the document
             NodeList projectList = doc.getElementsByTagName("project");
+            System.out.println(projectList.getLength());
             for (int i = 0; i < projectList.getLength(); i++) {
                 Node p = projectList.item(i);
                 if (p.getNodeType() == Node.ELEMENT_NODE) {
@@ -41,6 +42,7 @@ public class ManageDatabase {
 
             //Load programmer list of the document
             NodeList programmerList = doc.getElementsByTagName("programmer");
+            System.out.println(programmerList.getLength());
             for (int i = 0; i < programmerList.getLength(); i++) {
                 Node p = programmerList.item(i);
                 if (p.getNodeType() == Node.ELEMENT_NODE) {
@@ -49,9 +51,9 @@ public class ManageDatabase {
                     String salary = program.getElementsByTagName("salary").item(0).getTextContent();
                     String firstName = program.getElementsByTagName("firstName").item(0).getTextContent();
                     String lastName = program.getElementsByTagName("lastName").item(0).getTextContent();
-                    String project = program.getElementsByTagName("project").item(0).getTextContent();
+                    String project = program.getElementsByTagName("projectName").item(0).getTextContent();
                     String activity = program.getElementsByTagName("activity").item(0).getTextContent();
-                    double wage = Integer.parseInt(program.getElementsByTagName("wage").item(0).getTextContent());
+                    double wage = Double.parseDouble(program.getElementsByTagName("wage").item(0).getTextContent());
                     LocalDate startDate = LocalDate.parse(program.getElementsByTagName("startDate").item(0).getTextContent());
                     LocalDate endDate = LocalDate.parse(program.getElementsByTagName("endDate").item(0).getTextContent());
                     int month = Integer.parseInt(program.getElementsByTagName("month").item(0).getTextContent());
@@ -64,10 +66,13 @@ public class ManageDatabase {
                 }
             }
         } catch (Exception e) {
-            if (e.getMessage().contains("The system cannot find the file specified")) {
+//            System.out.println(e.getMessage());
+            if (e.getMessage() != null && e.getMessage().contains("The system cannot find the file specified")) {
                 newFile();
             } else {
+                System.out.println("==================");
                 System.out.println(e.getMessage());
+                System.out.println("==================");
             }
         }
     }
@@ -159,7 +164,7 @@ public class ManageDatabase {
                 prog.appendChild(pLastName);
 
                 // project element
-                Element pProject = doc.createElement("project");
+                Element pProject = doc.createElement("projectName");
                 pProject.appendChild(doc.createTextNode(project));
                 prog.appendChild(pProject);
 
@@ -241,6 +246,13 @@ public class ManageDatabase {
             root.appendChild(projects);
             Element programmers = doc.createElement("programmers");
             root.appendChild(programmers);
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File("data.xml"));
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.transform(source, result);
         } catch(Exception e) {
             System.out.println(e.getMessage());
         }

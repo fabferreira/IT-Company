@@ -9,11 +9,17 @@ public class Main {
         ArrayList<ActiveProgrammers> programmers = new ArrayList<>();
 
         ManageDatabase.load(projects, programmers);
-//        for (int i = 0; i < projects.size(); i++) {
-//            System.out.println(projects.get(i).getId());
-//            System.out.println(projects.get(i).getName());
-//            System.out.println(projects.get(i).getStartDate());
-//        }
+        for (ProjectTeam project : projects) {
+            System.out.println(project.getId());
+            System.out.println(project.getName());
+            System.out.println(project.getStartDate());
+        }
+
+        for (ActiveProgrammers programmer : programmers) {
+            System.out.println(programmer.getId());
+            System.out.println(programmer.getFirstName());
+            System.out.println(programmer.getStartDate());
+        }
 
 
 //	     Menu.menu(projects, programmers);
