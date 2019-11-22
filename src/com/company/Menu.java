@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
+    private ArrayList<ProjectTeam> newProjects = new ArrayList<>();
+    private ArrayList<ActiveProgrammers> newProgrammers = new ArrayList<>();
 
     public static void menu(ArrayList<ProjectTeam> projetcs, ArrayList<ActiveProgrammers> programmers) {
         Scanner scanner = new Scanner(System.in);
@@ -305,5 +307,6 @@ public class Menu {
         //remover infos do projecto no programador
         //defenir dias trabalhados no mes
     }
+
 
 }

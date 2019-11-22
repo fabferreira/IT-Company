@@ -5,8 +5,8 @@ import java.time.LocalDate;
 public class ProjectTeam {
     private int id;
     private String name;
-    private java.time.LocalDate startDate;
-    private java.time.LocalDate endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public ProjectTeam(int id, String name, LocalDate startDate, LocalDate endDate) {
         this.id = id;

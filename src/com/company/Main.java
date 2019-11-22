@@ -15,6 +15,7 @@ public class Main {
 //            System.out.println(projects.get(i).getStartDate());
 //        }
 
+
 //	     Menu.menu(projects, programmers);
     }
 }

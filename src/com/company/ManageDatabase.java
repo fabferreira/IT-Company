@@ -16,7 +16,6 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 public class ManageDatabase {
 
@@ -65,7 +64,11 @@ public class ManageDatabase {
                 }
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            if (e.getMessage().contains("The system cannot find the file specified")) {
+                newFile();
+            } else {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -122,7 +125,7 @@ public class ManageDatabase {
                 eachNode.getParentNode().removeChild(eachNode);
             }
 
-            //Add projects from List to document
+            //Add programmers from List to document
             for (ActiveProgrammers programmer : programmers) {
                 String id = String.valueOf(programmer.getId());
                 String firstName = programmer.getFirstName();
@@ -200,6 +203,33 @@ public class ManageDatabase {
         } catch(Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static void newFile() {
+        // initialize array Lists
+        ArrayList<ActiveProgrammers> resetProg = new ArrayList<ActiveProgrammers>();
+        ArrayList<ProjectTeam> resetProj = new ArrayList<ProjectTeam>();
+
+        // create project objects to add
+        ProjectTeam proj1 = new ProjectTeam(1, "Java SE", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-11-30"));
+        ProjectTeam proj2 = new ProjectTeam(2, "Angular", LocalDate.parse("2019-09-01"), LocalDate.parse("2019-12-31"));
+
+        // create programmer objects to add
+        ActiveProgrammers prog1 = new ActiveProgrammers(1, "Joaquim", "Marmita", true, "Java SE", "backend", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-11-10"), 0, LocalDate.now().getMonthValue(), 950.00, "full");
+        ActiveProgrammers prog2 = new ActiveProgrammers(2, "Maria", "Artista", true, "Java SE", "design", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-10-31"), 0, LocalDate.now().getMonthValue(), 950.00, "half");
+        ActiveProgrammers prog3 = new ActiveProgrammers(3, "Manuel", "Geleira", true, "Angular", "frontend", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-11-11"), 0, LocalDate.now().getMonthValue(), 950.00, "full");
+        ActiveProgrammers prog4 = new ActiveProgrammers(4, "Joana", "Dar't", true, "Angular", "design", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-10-31"), 0, LocalDate.now().getMonthValue(), 950.00, "half");
+
+        // add objects to projects arraylist
+        resetProj.add(proj1);
+        resetProj.add(proj2);
+
+        // add objects to programmers arraylist
+        resetProg.add(prog1);
+        resetProg.add(prog2);
+        resetProg.add(prog3);
+        resetProg.add(prog4);
+
     }
 
     public static void updateProject(ArrayList<ProjectTeam> Element, int id, String tagName, String newValue) {
