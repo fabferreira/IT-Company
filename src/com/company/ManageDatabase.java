@@ -68,7 +68,8 @@ public class ManageDatabase {
         } catch (Exception e) {
 //            System.out.println(e.getMessage());
             if (e.getMessage() != null && e.getMessage().contains("The system cannot find the file specified")) {
-                newFile();
+                newFile(projects, programmers);
+
             } else {
                 System.out.println("==================");
                 System.out.println(e.getMessage());
@@ -210,10 +211,7 @@ public class ManageDatabase {
         }
     }
 
-    public static void newFile() {
-        // initialize array Lists
-        ArrayList<ActiveProgrammers> resetProg = new ArrayList<>();
-        ArrayList<ProjectTeam> resetProj = new ArrayList<>();
+    public static void newFile(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers) {
 
         // create project objects to add
         ProjectTeam proj1 = new ProjectTeam(1, "Java SE", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-11-30"));
@@ -226,14 +224,14 @@ public class ManageDatabase {
         ActiveProgrammers prog4 = new ActiveProgrammers(4, "Joana", "Dar't", true, "Angular", "design", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-10-31"), 0, LocalDate.now().getMonthValue(), 950.00, "half");
 
         // add objects to projects arraylist
-        resetProj.add(proj1);
-        resetProj.add(proj2);
+        projects.add(proj1);
+        projects.add(proj2);
 
         // add objects to programmers arraylist
-        resetProg.add(prog1);
-        resetProg.add(prog2);
-        resetProg.add(prog3);
-        resetProg.add(prog4);
+        programmers.add(prog1);
+        programmers.add(prog2);
+        programmers.add(prog3);
+        programmers.add(prog4);
 
         // create file
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -242,10 +240,10 @@ public class ManageDatabase {
             Document doc = builder.newDocument();
             Element root = doc.createElement("itCompany");
             doc.appendChild(root);
-            Element projects = doc.createElement("projects");
-            root.appendChild(projects);
-            Element programmers = doc.createElement("programmers");
-            root.appendChild(programmers);
+            Element proj = doc.createElement("projects");
+            root.appendChild(proj);
+            Element prog = doc.createElement("programmers");
+            root.appendChild(prog);
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
@@ -258,7 +256,7 @@ public class ManageDatabase {
         }
 
         // save info to the file
-        save(resetProj,resetProg);
+        save(projects,programmers);
     }
 
     public static void updateProject(ArrayList<ProjectTeam> Element, int id, String tagName, String newValue) {
