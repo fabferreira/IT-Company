@@ -27,7 +27,6 @@ public class ManageDatabase {
 
             //Load projects list of the document
             NodeList projectList = doc.getElementsByTagName("project");
-            System.out.println(projectList.getLength());
             for (int i = 0; i < projectList.getLength(); i++) {
                 Node p = projectList.item(i);
                 if (p.getNodeType() == Node.ELEMENT_NODE) {
@@ -42,7 +41,6 @@ public class ManageDatabase {
 
             //Load programmer list of the document
             NodeList programmerList = doc.getElementsByTagName("programmer");
-            System.out.println(programmerList.getLength());
             for (int i = 0; i < programmerList.getLength(); i++) {
                 Node p = programmerList.item(i);
                 if (p.getNodeType() == Node.ELEMENT_NODE) {
@@ -66,14 +64,10 @@ public class ManageDatabase {
                 }
             }
         } catch (Exception e) {
-//            System.out.println(e.getMessage());
             if (e.getMessage() != null && e.getMessage().contains("The system cannot find the file specified")) {
                 newFile(projects, programmers);
-
             } else {
-                System.out.println("==================");
                 System.out.println(e.getMessage());
-                System.out.println("==================");
             }
         }
     }
@@ -138,6 +132,7 @@ public class ManageDatabase {
                 String lastName = programmer.getLastName();
                 String project = programmer.getProject();
                 String activity = programmer.getActivity();
+                String salary = programmer.getSalary();
                 String wage = Double.toString(programmer.getWage());
                 String startDate = programmer.getStartDate().toString();
                 String endDate = programmer.getEndDate().toString();
@@ -173,6 +168,11 @@ public class ManageDatabase {
                 Element pActivity = doc.createElement("activity");
                 pActivity.appendChild(doc.createTextNode(activity));
                 prog.appendChild(pActivity);
+
+                // salary element
+                Element pSalary = doc.createElement("salary");
+                pSalary.appendChild(doc.createTextNode(salary));
+                prog.appendChild(pSalary);
 
                 // wage element
                 Element pWage = doc.createElement("wage");
@@ -301,6 +301,12 @@ public class ManageDatabase {
                         elem.setStartDate(LocalDate.parse(newValue));
 
                     case "endDate":
+                        elem.setEndDate(LocalDate.parse(newValue));
+
+                    case "wage":
+                        elem.setEndDate(LocalDate.parse(newValue));
+
+                    case "salary":
                         elem.setEndDate(LocalDate.parse(newValue));
 
                     default:
