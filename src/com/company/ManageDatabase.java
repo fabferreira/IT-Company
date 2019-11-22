@@ -218,10 +218,10 @@ public class ManageDatabase {
         ProjectTeam proj2 = new ProjectTeam(2, "Angular", LocalDate.parse("2019-09-01"), LocalDate.parse("2019-12-31"));
 
         // create programmer objects to add
-        ActiveProgrammers prog1 = new ActiveProgrammers(1, "Joaquim", "Marmita", true, "Java SE", "backend", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-11-10"), 0, LocalDate.now().getMonthValue(), 950.00, "full");
-        ActiveProgrammers prog2 = new ActiveProgrammers(2, "Maria", "Artista", true, "Java SE", "design", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-10-31"), 0, LocalDate.now().getMonthValue(), 950.00, "half");
-        ActiveProgrammers prog3 = new ActiveProgrammers(3, "Manuel", "Geleira", true, "Angular", "frontend", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-11-11"), 0, LocalDate.now().getMonthValue(), 950.00, "full");
-        ActiveProgrammers prog4 = new ActiveProgrammers(4, "Joana", "Dar't", true, "Angular", "design", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-10-31"), 0, LocalDate.now().getMonthValue(), 950.00, "half");
+        ActiveProgrammers prog1 = new ActiveProgrammers(1, "Joaquim", "Marmita", true, "Java SE", "backend", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-11-10"), 0, LocalDate.now().getMonthValue(), 45.00, "full");
+        ActiveProgrammers prog2 = new ActiveProgrammers(2, "Maria", "Artista", true, "Java SE", "design", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-10-31"), 0, LocalDate.now().getMonthValue(), 45.00, "half");
+        ActiveProgrammers prog3 = new ActiveProgrammers(3, "Manuel", "Geleira", true, "Angular", "frontend", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-11-11"), 0, LocalDate.now().getMonthValue(), 45.00, "full");
+        ActiveProgrammers prog4 = new ActiveProgrammers(4, "Joana", "Dar't", true, "Angular", "design", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-10-31"), 0, LocalDate.now().getMonthValue(), 45.00, "half");
 
         // add objects to projects arraylist
         projects.add(proj1);

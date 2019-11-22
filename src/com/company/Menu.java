@@ -1,5 +1,8 @@
 package com.company;
 
+import java.sql.SQLOutput;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,7 +10,7 @@ public class Menu {
     private ArrayList<ProjectTeam> newProjects = new ArrayList<>();
     private ArrayList<ActiveProgrammers> newProgrammers = new ArrayList<>();
 
-    public static void menu(ArrayList<ProjectTeam> projetcs, ArrayList<ActiveProgrammers> programmers) {
+    public static void menu(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, LocalDate date) {
         Scanner scanner = new Scanner(System.in);
         boolean quit = false;
 
@@ -25,7 +28,7 @@ public class Menu {
                     break;
 
                 case 3:
-                    showReport();
+                    showReport(projects, programmers, date);
                     break;
 
                 case 4:
@@ -38,7 +41,7 @@ public class Menu {
 
                 case 6:
                     quit = true;
-                    // colocar aqui ou no main um save automatico antes do programa fechar
+                    ManageDatabase.save(projects,programmers);
                     break;
 
                 default:
@@ -203,7 +206,7 @@ public class Menu {
     private static void editProgMenu() {
         Scanner scanner = new Scanner(System.in);
         int edprog = 0;
-        while(edprog != 7) {
+        while(edprog != 9) {
 
             System.out.println("====== Edit Programmer ======");
             System.out.println("Please Select one of the following options:");
@@ -213,7 +216,9 @@ public class Menu {
             System.out.println("4. Edit Activity");
             System.out.println("5. Edit Start Date");
             System.out.println("6. Edit End Date");
-            System.out.println("7. Back");
+            System.out.println("7. Edit Wage");
+            System.out.println("8. Edit % Salary");
+            System.out.println("9. Back");
 
             edprog = scanner.nextInt();
             scanner.nextLine();
@@ -255,6 +260,18 @@ public class Menu {
                     break;
 
                 case 7:
+                    //escolher o programador
+                    //mudar o salário
+                    System.out.println("Wage Changed");
+                    break;
+
+                case 8:
+                    //escolher o programador
+                    //mudar a % que recebe
+                    System.out.println("% Salary Changed");
+                    break;
+
+                case 9:
                     break;
 
                 default:
@@ -267,8 +284,65 @@ public class Menu {
         }
     }
 
-    private static void showReport() {
-        // mostrar o report como pedido
+    public static void showReport(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, LocalDate date) {
+        int totalTeams = projects.size();
+        int totalProgrammers= programmers.size();
+        int totalActive;
+        int totalDays = 0;
+        int totalLeft = 0;
+        totalActive = 0;
+        for (ActiveProgrammers programmer : programmers) {
+            if (programmer.isActive()) {
+                totalActive++;
+            }
+        }
+        String printOut = ("=======================\r" +"  IT COMPANY - REPORT  \r" + "=======================\n"
+                + "IT Company is actually composed of " + totalTeams + " project teams, and " + totalProgrammers + " programmers.\r"
+                + "This month, " + totalActive + "programmers have been worked " + totalDays + " days, and " + totalLeft + " days left worked.\n"
+                + "== Project Team  details ==\n");
+
+        // Add Projects and programmers to the printout
+        for (ProjectTeam project : projects) {
+            String name = project.getName();
+            String firstName;
+            String lastName;
+            String activity;
+            LocalDate startDate;
+            LocalDate endDate;
+            int duration;
+            int daysWorked;
+            double salary;
+            printOut += "Project team: " + name + "\r";
+            for (ActiveProgrammers programmer : programmers) {
+                firstName = programmer.getFirstName();
+                lastName = programmer.getLastName();
+                activity = programmer.getActivity();
+                startDate = programmer.getStartDate();
+                endDate = programmer.getEndDate();
+                duration = Period.between(startDate, endDate).getDays();
+                if (startDate.getMonthValue() != date.getMonthValue()) {
+                    daysWorked = date.getDayOfMonth() + programmer.getWorkedDays();
+                } else {
+                    daysWorked = date.lengthOfMonth() - startDate.getDayOfMonth() + 1 + programmer.getWorkedDays();
+                }
+                if (programmer.getSalary().equals("full")) {
+                    salary = daysWorked * programmer.getWage();
+                } else if (programmer.getSalary().equals("half")) {
+                    salary = daysWorked * programmer.getWage() * 0.5;
+                }
+                printOut += lastName + ", " + firstName + ", in charge of " + activity + " from " + startDate + " to " + endDate
+                        + " (duration " + duration + " days), has worked " + daysWorked + " days this month (total salary $" + salary + ")\n";
+            }
+        }
+        System.out.println(printOut);
+
+//        // Print of the Report on console
+//        System.out.println("=======================");
+//        System.out.println("  IT COMPANY - REPORT  ");
+//        System.out.println("=======================\n");
+//        System.out.println("IT Company is actually composed of " + totalTeams + " project teams, and " + totalProgrammers + " programmers.");
+//        System.out.println("This month, " + totalActive + "programmers have been worked " + totalDays + " days, and " + totalLeft + " days left worked.\\n");
+//        System.out.println("== Project Team  details ==");
     }
 
     private static void save() {
@@ -307,6 +381,4 @@ public class Menu {
         //remover infos do projecto no programador
         //defenir dias trabalhados no mes
     }
-
-
 }

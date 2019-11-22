@@ -133,12 +133,10 @@ public class ActiveProgrammers implements Programmers{
 
     @Override
     public void editPersonalInfo() {
-
     }
 
     @Override
     public void editProjectDetails() {
-
     }
 
     @Override
