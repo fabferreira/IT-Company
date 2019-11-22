@@ -207,8 +207,8 @@ public class ManageDatabase {
 
     public static void newFile() {
         // initialize array Lists
-        ArrayList<ActiveProgrammers> resetProg = new ArrayList<ActiveProgrammers>();
-        ArrayList<ProjectTeam> resetProj = new ArrayList<ProjectTeam>();
+        ArrayList<ActiveProgrammers> resetProg = new ArrayList<>();
+        ArrayList<ProjectTeam> resetProj = new ArrayList<>();
 
         // create project objects to add
         ProjectTeam proj1 = new ProjectTeam(1, "Java SE", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-11-30"));
@@ -230,6 +230,23 @@ public class ManageDatabase {
         resetProg.add(prog3);
         resetProg.add(prog4);
 
+        // create file
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        try {
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.newDocument();
+            Element root = doc.createElement("itCompany");
+            doc.appendChild(root);
+            Element projects = doc.createElement("projects");
+            root.appendChild(projects);
+            Element programmers = doc.createElement("programmers");
+            root.appendChild(programmers);
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        // save info to the file
+        save(resetProj,resetProg);
     }
 
     public static void updateProject(ArrayList<ProjectTeam> Element, int id, String tagName, String newValue) {
