@@ -19,6 +19,29 @@ import java.util.ArrayList;
 
 public class ManageDatabase {
 
+    public static LocalDate loadDate() {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        try {
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse("data.xml");
+
+            // Load data
+            LocalDate date = LocalDate.now();
+            NodeList dateList = doc.getElementsByTagName("itCompany");
+            for (int i = 0; i < dateList.getLength(); i++) {
+                Node p = dateList.item(i);
+                if (p.getNodeType() == Node.ELEMENT_NODE) {
+                    Element fileDate = (Element) p;
+                    date = LocalDate.parse(fileDate.getElementsByTagName("date").item(0).getTextContent());
+                }
+            }
+            return date;
+
+        } catch (Exception e) {
+            return LocalDate.now().minusDays(1);
+        }
+    }
+
     public static void load(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers) {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
@@ -79,16 +102,17 @@ public class ManageDatabase {
             Document doc = builder.parse("data.xml");
 
             NodeList dateList = doc.getElementsByTagName("date");
-            //Delete projects from document
+            //Delete date from document
             for (int i = 0; i < dateList.getLength(); i++) {
                 Node eachNode = dateList.item(i);
                 eachNode.getParentNode().removeChild(eachNode);
             }
 
-            // project element
-            NodeList dateGroup = doc.getElementsByTagName("itCompany");
+            // date element
+            NodeList root = doc.getElementsByTagName("itCompany");
             Element fileDate = doc.createElement("date");
-            dateGroup.item(0).appendChild(fileDate);
+            fileDate.appendChild(doc.createTextNode(date.toString()));
+            root.item(0).appendChild(fileDate);
 
             NodeList projectList = doc.getElementsByTagName("project");
             //Delete projects from document
@@ -225,7 +249,7 @@ public class ManageDatabase {
 
     public static void newFile(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers) {
         // date
-        LocalDate date = LocalDate.now();
+        LocalDate date = LocalDate.now().minusDays(1);
 
         // create project objects to add
         ProjectTeam proj1 = new ProjectTeam(1, "Java SE", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-11-30"));

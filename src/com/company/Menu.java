@@ -19,10 +19,9 @@ public class Menu {
         while(!quit) {
             MainMenu();
             int action = scanner.nextInt();
-            scanner.nextLine();
             switch(action) {
                 case 1:
-                    projectsMenu();
+                    projectsMenu(projects, date);
                     break;
 
                 case 2:
@@ -34,11 +33,11 @@ public class Menu {
                     break;
 
                 case 4:
-                    save();
+                    ManageDatabase.save(projects, programmers, date);
                     break;
 
                 case 5:
-                    load();
+                    ManageDatabase.load(projects, programmers);
                     break;
 
                 case 6:
@@ -66,7 +65,7 @@ public class Menu {
         System.out.println("6. Quit");
     }
 
-    private static void projectsMenu() {
+    private static void projectsMenu(ArrayList<ProjectTeam> projects, LocalDate date) {
         Scanner scanner = new Scanner(System.in);
         int actproj = 0;
 
@@ -80,10 +79,9 @@ public class Menu {
             System.out.println("4. Back");
 
             actproj = scanner.nextInt();
-            scanner.nextLine();
             switch (actproj) {
                 case 1:
-                    addProject();
+                    addProject(projects, date);
                     System.out.println("Project added");
                     break;
 
@@ -124,10 +122,9 @@ public class Menu {
             System.out.println("5. Back");
 
             actprog = scanner.nextInt();
-            scanner.nextLine();
             switch (actprog) {
                 case 1:
-                    addProgrammer();
+                    //addProgrammer();
                     System.out.println("Programmer added");
                     break;
 
@@ -172,7 +169,6 @@ public class Menu {
             System.out.println("4. Back");
 
             edproj = scanner.nextInt();
-            scanner.nextLine();
             switch (edproj) {
                 case 1:
                     // escolher o projecto
@@ -223,7 +219,6 @@ public class Menu {
             System.out.println("9. Back");
 
             edprog = scanner.nextInt();
-            scanner.nextLine();
             switch (edprog) {
                 case 1:
                     //escolher o programador
@@ -360,16 +355,56 @@ public class Menu {
         }
     }
 
-    private static void save() {
-        // fazer save do ficheiro
-    }
+    private static void addProject(ArrayList<ProjectTeam> projects, LocalDate date) {
+        Scanner scanner = new Scanner(System.in);
+        boolean next = false;
 
-    private static void load() {
-        // fazer load do ficheiro
-    }
+        // user input project name
+        System.out.println("Please choose a name for the new Project:");
+        ArrayList<String> projNames = new ArrayList<>();
+        for (ProjectTeam proj : projects ) {
+            projNames.add(proj.getName().toLowerCase());
+        }
+        while (!next) {
+            String name = scanner.nextLine();
+            if (projNames.contains(name.toLowerCase())) {
+                System.out.println("Choose a different name, this name already exists in the system");
+            } else {
+                next = true;
+            }
+        }
 
-    private static void addProject() {
-        // criar novo projecto (confirmar se já existe)
+        // user input project start date
+        System.out.println("Please choose an end date (yyyy-MM-dd):");
+        next = false;
+        while (!next) {
+            String end = scanner.nextLine();
+            try {
+                LocalDate endDate = LocalDate.parse(end);
+                if (endDate.isAfter(date)) {
+                    next = true;
+                } else {
+                    System.out.println("Please insert a date of tomorrow or after");
+                }
+            } catch (Exception e) {
+                System.out.println("Please insert a valid date (yyyy-MM-dd).");
+            }
+        }
+
+        // add new project
+        System.out.println("You need at least 2 programmers in the project,");
+        System.out.println("Do you want to add currently inactive programmers? (s/n)");
+        String option = scanner.nextLine();
+        next = false;
+        while (!next) {
+            if (option.toLowerCase().equals("s")) {
+
+            }
+        }
+
+
+
+
         // adicionar novo projecto a lista de projectos
     }
 
@@ -380,9 +415,126 @@ public class Menu {
         // colocar os programadores do projecto como inativos
     }
 
-    private static void addProgrammer() {
-        // criar novo programador (confirmar se já existe)
-        // adicionar novo programador a lista de programadores
+    private static void addProgrammer(ArrayList<ActiveProgrammers> programmers, String project, LocalDate endProject, LocalDate startDate) {
+        int id = 0;
+        String firstName = "";
+        String lastName = "";
+        boolean isActive = false;
+        String activity;
+        LocalDate endDate = LocalDate.parse("0001-01-01");
+        int workedDays = 0;
+        double wage = 0.00;
+        String salary = "";
+
+        boolean next = false;
+        Scanner scanner = new Scanner(System.in);
+
+        // check if there are any inactive programmer
+        boolean isInactive = false;
+        ArrayList<String> inactProg = new ArrayList<>();
+        ArrayList<Integer> inactProgId = new ArrayList<>();
+        for (ActiveProgrammers programmer : programmers) {
+            if (!programmer.isActive()) {
+                inactProg.add(programmer.getFirstName() + " " + programmer.getFirstName());
+                inactProgId.add(programmer.getId());
+                isInactive = true;
+            }
+        }
+        if (isInactive) {
+            System.out.println("Do you want to add currently inactive programmers? (s/n)");
+            while (!next) {
+                String option = scanner.nextLine();
+                if (option.toLowerCase().equals("s")) {
+                    System.out.println("Please select the programmer you want to add.");
+                    for (int i = 0; i < inactProg.size(); i++) {
+                        System.out.println( i+1 + ". " + inactProg.get(i));
+                    }
+                    boolean isID = false;
+                    while (!isID) {
+                        int ID = scanner.nextInt();
+                        if (ID-1 >= inactProg.size() || ID-1 < 0) {
+                            System.out.println("Please insert a valid option");
+                        } else {
+                            id = inactProgId.get(ID-1);
+                            for (ActiveProgrammers programmer : programmers) {
+                                if (programmer.getId() == id) {
+                                    firstName = programmer.getFirstName();
+                                    lastName = programmer.getLastName();
+                                    workedDays = programmer.getWorkedDays();
+                                    wage = programmer.getWage();
+                                    salary = programmer.getSalary();
+                                }
+                            }
+                            isID = true;
+                        }
+                    }
+                } else if (option.toLowerCase().equals("n")) {
+                    next = true;
+                } else {
+                    System.out.println("Please insert a valid option (s/n)");
+                }
+            }
+        } else {
+            System.out.println("Please Insert First Name");
+            firstName = scanner.nextLine();
+            System.out.println("Please Insert Last Name");
+            lastName = scanner.nextLine();
+            next = false;
+            System.out.println("Please Insert Wage value (€/day)");
+            while (!next) {
+                try {
+                    wage = Double.parseDouble(scanner.nextLine());
+                    next = true;
+                } catch (Exception e) {
+                    System.out.println("Please insert a valid number");
+                }
+            }
+            next = false;
+            System.out.println("Will receive full salary (f) or half salary (h)");
+            while(!next) {
+                String option = scanner.nextLine();
+                if (option.toLowerCase().equals("f")) {
+                    salary = "full";
+                    next = true;
+                } else if (option.toLowerCase().equals("h")){
+                    salary = "half";
+                    next = true;
+                } else {
+                    System.out.println("Please insert a valid option.");
+                }
+            }
+            int lastId = 0;
+            for (ActiveProgrammers prog : programmers) {
+                if (prog.getId() > lastId) {
+                    lastId = prog.getId();
+                }
+            }
+            id = lastId + 1;
+        }
+        if (project.equals("")) {
+            ActiveProgrammers newProgrammer = new ActiveProgrammers(id, firstName, lastName, wage, salary);
+            programmers.add(newProgrammer);
+        } else {
+            System.out.println("Please choose an activity end date (yyyy-MM-dd):");
+            next = false;
+            while (!next) {
+                String end = scanner.nextLine();
+                try {
+                    endDate = LocalDate.parse(end);
+                    if (endDate.isBefore(endProject) || endDate.isEqual(endProject) && endDate.isAfter(startDate)) {
+                        next = true;
+                    } else {
+                        System.out.println("Please insert a date of tomorrow or after and not after the end of the project");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Please insert a valid date (yyyy-MM-dd).");
+                }
+            }
+            System.out.println("Please insert the activity of the programmer");
+            activity = scanner.nextLine();
+            ActiveProgrammers newProgrammer = new ActiveProgrammers(id, firstName, lastName, true, project, activity, startDate, endDate, workedDays, startDate.getMonthValue(), wage, salary);
+            programmers.add(newProgrammer);
+        }
     }
 
     private static void removeProgrammer() {
@@ -396,4 +548,5 @@ public class Menu {
         //remover infos do projecto no programador
         //defenir dias trabalhados no mes
     }
+
 }

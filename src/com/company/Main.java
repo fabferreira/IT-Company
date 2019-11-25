@@ -8,10 +8,14 @@ public class Main {
     public static void main(String[] args) {
         ArrayList<ProjectTeam> projects = new ArrayList<>();
         ArrayList<ActiveProgrammers> programmers = new ArrayList<>();
-        LocalDate date = LocalDate.now(); // mudar esta data para a data do ficheiro
 
         ManageDatabase.load(projects, programmers);
-        Menu.showReport(projects, programmers, date);
+        LocalDate date = ManageDatabase.loadDate();
+        LocalDate newDate = date.plusDays(1);
+        Menu.menu(projects, programmers, newDate);
+
+
+//        Menu.showReport(projects, programmers, newDate);
 
 //        for (ProjectTeam project : projects) {
 //            System.out.println(project.getId());
