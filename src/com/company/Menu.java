@@ -1,8 +1,6 @@
 package com.company;
 
-import java.sql.SQLOutput;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -21,7 +19,7 @@ public class Menu {
             int action = scanner.nextInt();
             switch(action) {
                 case 1:
-                    projectsMenu(projects, date);
+                    projectsMenu(projects,programmers, date);
                     break;
 
                 case 2:
@@ -65,7 +63,7 @@ public class Menu {
         System.out.println("6. Quit");
     }
 
-    private static void projectsMenu(ArrayList<ProjectTeam> projects, LocalDate date) {
+    private static void projectsMenu(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, LocalDate date) {
         Scanner scanner = new Scanner(System.in);
         int actproj = 0;
 
@@ -81,7 +79,7 @@ public class Menu {
             actproj = scanner.nextInt();
             switch (actproj) {
                 case 1:
-                    addProject(projects, date);
+                    addProject(projects, programmers, date);
                     System.out.println("Project added");
                     break;
 
@@ -127,6 +125,7 @@ public class Menu {
                     //addProgrammer();
                     System.out.println("Programmer added");
                     break;
+
 
                 case 2:
                     removeProgrammer();
@@ -355,9 +354,12 @@ public class Menu {
         }
     }
 
-    private static void addProject(ArrayList<ProjectTeam> projects, LocalDate date) {
+    private static void addProject(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, LocalDate date) {
         Scanner scanner = new Scanner(System.in);
         boolean next = false;
+        String name = "";
+        LocalDate endDate = LocalDate.parse("0001-01-01");
+        int id = 0;
 
         // user input project name
         System.out.println("Please choose a name for the new Project:");
@@ -366,7 +368,7 @@ public class Menu {
             projNames.add(proj.getName().toLowerCase());
         }
         while (!next) {
-            String name = scanner.nextLine();
+            name = scanner.nextLine();
             if (projNames.contains(name.toLowerCase())) {
                 System.out.println("Choose a different name, this name already exists in the system");
             } else {
@@ -380,7 +382,7 @@ public class Menu {
         while (!next) {
             String end = scanner.nextLine();
             try {
-                LocalDate endDate = LocalDate.parse(end);
+                endDate = LocalDate.parse(end);
                 if (endDate.isAfter(date)) {
                     next = true;
                 } else {
@@ -392,20 +394,29 @@ public class Menu {
         }
 
         // add new project
-        System.out.println("You need at least 2 programmers in the project,");
-        System.out.println("Do you want to add currently inactive programmers? (s/n)");
-        String option = scanner.nextLine();
+        System.out.println("You need to add at least 2 programmers in the project");
         next = false;
         while (!next) {
-            if (option.toLowerCase().equals("s")) {
-
+            int numberProg = 0;
+            for (ActiveProgrammers programmer : programmers) {
+                if (programmer.getProject().equals(name)) {
+                    numberProg ++;
+                }
+            }
+            if (numberProg < 2) {
+                addProgrammer(programmers, name, endDate, date);
+            } else {
+                next = false;
             }
         }
-
-
-
-
-        // adicionar novo projecto a lista de projectos
+        for (ProjectTeam proj : projects) {
+            if (proj.getId() > id) {
+                id = proj.getId();
+            }
+        }
+        id++;
+        ProjectTeam newProj = new ProjectTeam(id, name, date, endDate);
+        projects.add(newProj);
     }
 
     private static void removeProject() {
