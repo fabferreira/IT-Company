@@ -17,7 +17,7 @@ public class ActiveProgrammers implements Programmers{
     private String salary;
 
     public ActiveProgrammers(int id, String firstName, String lastName, double wage, String salary) {
-        this(id, firstName, lastName, false, "", "", LocalDate.parse("0000-00-00"), LocalDate.parse("0000-00-00"), 0, LocalDate.now().getMonthValue(), wage, salary);
+        this(id, firstName, lastName, false, "", "", LocalDate.parse("0000-01-01"), LocalDate.parse("0000-01-01"), 0, LocalDate.now().getMonthValue(), wage, salary);
     }
 
     public ActiveProgrammers(int id, String firstName, String lastName, boolean isActive, String project, String activity, LocalDate startDate, LocalDate endDate, int workedDays, int month, double wage, String salary) {

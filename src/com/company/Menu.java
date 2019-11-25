@@ -20,34 +20,33 @@ public class Menu {
             switch(action) {
                 case 1:
                     projectsMenu(projects,programmers, date);
-                    break;
+                    continue;
 
                 case 2:
-                    programmersMenu();
-                    break;
+                    programmersMenu(projects,programmers, date);
+                    continue;
 
                 case 3:
                     showReport(projects, programmers, date);
-                    break;
+                    continue;
 
                 case 4:
                     ManageDatabase.save(projects, programmers, date);
-                    break;
+                    continue;
 
                 case 5:
                     ManageDatabase.load(projects, programmers);
-                    break;
+                    continue;
 
                 case 6:
                     quit = true;
                     ManageDatabase.save(projects,programmers, date);
-                    break;
+                    continue;
 
                 default:
                     System.out.println("************************************");
                     System.out.println("Please insert a valid option");
                     System.out.println("************************************");
-                    break;
             }
         }
     }
@@ -81,32 +80,31 @@ public class Menu {
                 case 1:
                     addProject(projects, programmers, date);
                     System.out.println("Project added");
-                    break;
+                    continue;
 
                 case 2:
                     removeProject();
                     System.out.println("Project removed");
-                    break;
+                    continue;
 
                 case 3:
                     editProjMenu();
                     System.out.println("Edition Completed");
-                    break;
+                    continue;
 
                 case 4:
-                    break;
+                    continue;
 
                 default:
                     System.out.println("************************************");
                     System.out.println("Please insert a valid option");
                     System.out.println("************************************");
                     System.out.println();
-                    break;
             }
         }
     }
 
-    private static void programmersMenu() {
+    private static void programmersMenu(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, LocalDate date) {
         Scanner scanner = new Scanner(System.in);
         int actprog = 0;
         while(actprog != 5) {
@@ -124,33 +122,32 @@ public class Menu {
                 case 1:
                     //addProgrammer();
                     System.out.println("Programmer added");
-                    break;
+                    continue;
 
 
                 case 2:
                     removeProgrammer();
                     System.out.println("Programmer removed");
-                    break;
+                    continue;
 
                 case 3:
                     editProgMenu();
                     System.out.println("Edition Completed");
-                    break;
+                    continue;
 
                 case 4:
-                    inactivateProgrammer();
+                    inactivateProgrammer(projects, programmers, date);
                     System.out.println("Programmer inactivated");
-                    break;
+                    continue;
 
                 case 5:
-                    break;
+                    continue;
 
                 default:
                     System.out.println("************************************");
                     System.out.println("Please insert a valid option");
                     System.out.println("************************************");
                     System.out.println();
-                    break;
             }
         }
     }
@@ -173,29 +170,28 @@ public class Menu {
                     // escolher o projecto
                     // mudar o nome
                     System.out.println("Name changed");
-                    break;
+                    continue;
 
                 case 2:
                     // escolher o projecto
                     // mudar a data de inicio
                     System.out.println("Start Date Changed");
-                    break;
+                    continue;
 
                 case 3:
                     // escolher o projecto
                     // mudar a data de fim
                     System.out.println("End Date Changed");
-                    break;
+                    continue;
 
                 case 4:
-                    break;
+                    continue;
 
                 default:
                     System.out.println("************************************");
                     System.out.println("Please insert a valid option");
                     System.out.println("************************************");
                     System.out.println();
-                    break;
             }
         }
     }
@@ -223,59 +219,58 @@ public class Menu {
                     //escolher o programador
                     //mudar o primeiro nome
                     System.out.println("Programmer's First Name changed");
-                    break;
+                    continue;
 
                 case 2:
                     //escolher o programador
                     //mudar o ultimo nome
                     System.out.println("Programmer's Last Name changed");
-                    break;
+                    continue;
 
                 case 3:
                     //escolher o programador
                     //mudar o projecto
                     System.out.println("Project Changed");
-                    break;
+                    continue;
 
                 case 4:
                     //escolher o programador
                     //mudar a data de inicio
                     System.out.println("Activity Changed");
-                    break;
+                    continue;
 
                 case 5:
                     //escolher o programador
                     //mudar a data de fim
                     System.out.println("Start Date Changed");
-                    break;
+                    continue;
 
                 case 6:
                     //escolher o programador
                     //mudar a data de fim
                     System.out.println("End Date Changed");
-                    break;
+                    continue;
 
                 case 7:
                     //escolher o programador
                     //mudar o salário
                     System.out.println("Wage Changed");
-                    break;
+                    continue;
 
                 case 8:
                     //escolher o programador
                     //mudar a % que recebe
                     System.out.println("% Salary Changed");
-                    break;
+                    continue;
 
                 case 9:
-                    break;
+                    continue;
 
                 default:
                     System.out.println("************************************");
                     System.out.println("Please insert a valid option");
                     System.out.println("************************************");
                     System.out.println();
-                    break;
             }
         }
     }
@@ -405,8 +400,7 @@ public class Menu {
             }
             if (numberProg < 2) {
                 addProgrammer(programmers, name, endDate, date);
-            } else {
-                next = false;
+                next = true;
             }
         }
         for (ProjectTeam proj : projects) {
@@ -417,6 +411,7 @@ public class Menu {
         id++;
         ProjectTeam newProj = new ProjectTeam(id, name, date, endDate);
         projects.add(newProj);
+        System.out.println("New project successfully added");
     }
 
     private static void removeProject() {
@@ -545,6 +540,7 @@ public class Menu {
             activity = scanner.nextLine();
             ActiveProgrammers newProgrammer = new ActiveProgrammers(id, firstName, lastName, true, project, activity, startDate, endDate, workedDays, startDate.getMonthValue(), wage, salary);
             programmers.add(newProgrammer);
+            System.out.println("New programmer successfully added");
         }
     }
 
@@ -554,10 +550,63 @@ public class Menu {
         // remover o programador seleccionado
     }
 
-    private static void inactivateProgrammer() {
+    private static void inactivateProgrammer(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, LocalDate date) {
+        Scanner scanner = new Scanner(System.in);
+        String nameProj = "";
+        LocalDate endDate = null;
+        System.out.println("Please choose a programmer to inactivate");
+        for (int i=0; i < programmers.size(); i++) {
+            System.out.println(i+1 + " " + programmers.get(i).getFirstName() + programmers.get(i).getLastName());
+        }
+        boolean next = false;
+        while(!next) {
+            String idStr = scanner.nextLine();
+            int id;
+            try {
+                id = Integer.parseInt(idStr)-1;
+            } catch (Exception e) {
+                System.out.println("Please insert a valid option");
+                continue;
+            }
+            if (0 <= id && id < programmers.size()) {
+                nameProj = programmers.get(id).getProject();
+                programmers.get(id).setActive(false);
+                programmers.get(id).setProject("");
+                programmers.get(id).setActivity("");
+                int WD;
+                if (programmers.get(id).getStartDate().getMonthValue() != date.getMonthValue()) {
+                    WD = date.getDayOfMonth() + programmers.get(id).getWorkedDays();
+                } else {
+                    WD = date.getDayOfMonth() - programmers.get(id).getStartDate().getDayOfMonth() + 1 + programmers.get(id).getWorkedDays();
+                }
+                programmers.get(id).setWorkedDays(WD);
+                programmers.get(id).setStartDate(LocalDate.parse("0000-01-01"));
+                programmers.get(id).setEndDate(LocalDate.parse("0000-01-01"));
+                next = true;
+            }
+        }
+        int totalProg = 0;
+        for (ActiveProgrammers prog : programmers) {
+            if (prog.getProject().equals(nameProj)) {
+                totalProg ++;
+            }
+        }
+        if (totalProg < 2) {
+            System.out.println("your project is now with less than 2 programmers, you need to add another one");
+            for (ProjectTeam proj : projects) {
+                if (proj.getName().equals(nameProj)) {
+                    endDate = proj.getEndDate();
+                }
+            }
+            addProgrammer(programmers, nameProj, endDate, date);
+        }
+
+
+
         // por isActive para false
         //remover infos do projecto no programador
         //defenir dias trabalhados no mes
+        // se o projecto ficar com menos de 2 perguntar s eapago projecto ou adiciono programador
     }
 
 }
