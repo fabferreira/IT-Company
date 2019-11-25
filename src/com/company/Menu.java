@@ -6,6 +6,8 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 public class Menu {
     private ArrayList<ProjectTeam> newProjects = new ArrayList<>();
     private ArrayList<ActiveProgrammers> newProgrammers = new ArrayList<>();
@@ -285,64 +287,74 @@ public class Menu {
     }
 
     public static void showReport(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, LocalDate date) {
-        int totalTeams = projects.size();
-        int totalProgrammers= programmers.size();
+        int totalTeams;
+        int totalProgrammers;
         int totalActive;
         int totalDays = 0;
-        int totalLeft = 0;
+        long totalLeft = 0;
+        ArrayList<String> toPrint = new ArrayList<>();
+        totalTeams = projects.size();
+        totalProgrammers = programmers.size();
         totalActive = 0;
         for (ActiveProgrammers programmer : programmers) {
             if (programmer.isActive()) {
                 totalActive++;
             }
         }
-        String printOut = ("=======================\r" +"  IT COMPANY - REPORT  \r" + "=======================\n"
-                + "IT Company is actually composed of " + totalTeams + " project teams, and " + totalProgrammers + " programmers.\r"
-                + "This month, " + totalActive + "programmers have been worked " + totalDays + " days, and " + totalLeft + " days left worked.\n"
-                + "== Project Team  details ==\n");
 
-        // Add Projects and programmers to the printout
         for (ProjectTeam project : projects) {
             String name = project.getName();
+            toPrint.add("\n*** Project team: " + name + " ***");
             String firstName;
             String lastName;
             String activity;
             LocalDate startDate;
             LocalDate endDate;
-            int duration;
+            long duration;
             int daysWorked;
-            double salary;
-            printOut += "Project team: " + name + "\r";
+            double salary = 0.00;
             for (ActiveProgrammers programmer : programmers) {
-                firstName = programmer.getFirstName();
-                lastName = programmer.getLastName();
-                activity = programmer.getActivity();
-                startDate = programmer.getStartDate();
-                endDate = programmer.getEndDate();
-                duration = Period.between(startDate, endDate).getDays();
-                if (startDate.getMonthValue() != date.getMonthValue()) {
-                    daysWorked = date.getDayOfMonth() + programmer.getWorkedDays();
-                } else {
-                    daysWorked = date.lengthOfMonth() - startDate.getDayOfMonth() + 1 + programmer.getWorkedDays();
+                if (programmer.getProject().equals(name)) {
+                    firstName = programmer.getFirstName();
+                    lastName = programmer.getLastName();
+                    activity = programmer.getActivity();
+                    startDate = programmer.getStartDate();
+                    endDate = programmer.getEndDate();
+                    duration = DAYS.between(startDate, endDate);
+                    if (startDate.getMonthValue() != date.getMonthValue()) {
+                        daysWorked = date.getDayOfMonth() + programmer.getWorkedDays();
+                    } else {
+                        daysWorked = date.getDayOfMonth() - startDate.getDayOfMonth() + 1 + programmer.getWorkedDays();
+                    }
+                    totalDays += daysWorked;
+                    if (endDate.getMonthValue() != date.getMonthValue()) {
+                        totalLeft += date.lengthOfMonth() - date.getDayOfMonth();
+                    } else {
+                        totalLeft += endDate.getDayOfMonth() - date.getDayOfMonth();
+                    }
+                    if (programmer.getSalary().equals("full")) {
+                        salary = daysWorked * programmer.getWage();
+                    } else if (programmer.getSalary().equals("half")) {
+                        salary = daysWorked * programmer.getWage() * 0.5;
+                    }
+                    toPrint.add(lastName + ", " + firstName + ", in charge of " + activity + " from " + startDate + " to " + endDate
+                            + " (duration " + duration + " days), has worked " + daysWorked + " days this month (total salary $" + salary + ")");
                 }
-                if (programmer.getSalary().equals("full")) {
-                    salary = daysWorked * programmer.getWage();
-                } else if (programmer.getSalary().equals("half")) {
-                    salary = daysWorked * programmer.getWage() * 0.5;
-                }
-                printOut += lastName + ", " + firstName + ", in charge of " + activity + " from " + startDate + " to " + endDate
-                        + " (duration " + duration + " days), has worked " + daysWorked + " days this month (total salary $" + salary + ")\n";
             }
         }
-        System.out.println(printOut);
 
-//        // Print of the Report on console
-//        System.out.println("=======================");
-//        System.out.println("  IT COMPANY - REPORT  ");
-//        System.out.println("=======================\n");
-//        System.out.println("IT Company is actually composed of " + totalTeams + " project teams, and " + totalProgrammers + " programmers.");
-//        System.out.println("This month, " + totalActive + "programmers have been worked " + totalDays + " days, and " + totalLeft + " days left worked.\\n");
-//        System.out.println("== Project Team  details ==");
+        // Print of the Report on console
+        System.out.println("=======================");
+        System.out.println("  IT COMPANY - REPORT  ");
+        System.out.println("=======================\n");
+        System.out.println("IT Company is actually composed of " + totalTeams + " project teams, and " + totalProgrammers + " programmers.");
+        System.out.println("This month, " + totalActive + " programmers have been worked " + totalDays + " days, and " + totalLeft + " days left worked.\n");
+        System.out.println("=== Project Team  details ===");
+
+        // Print projects part
+        for (String elem: toPrint) {
+            System.out.println(elem);
+        }
     }
 
     private static void save() {
