@@ -43,7 +43,7 @@ public class Menu {
 
                 case 6:
                     quit = true;
-                    ManageDatabase.save(projects,programmers);
+                    ManageDatabase.save(projects,programmers, date);
                     break;
 
                 default:
@@ -291,7 +291,7 @@ public class Menu {
         int totalProgrammers;
         int totalActive;
         int totalDays = 0;
-        long totalLeft = 0;
+        int totalLeft = 0;
         ArrayList<String> toPrint = new ArrayList<>();
         totalTeams = projects.size();
         totalProgrammers = programmers.size();
@@ -314,6 +314,9 @@ public class Menu {
             int daysWorked;
             double salary = 0.00;
             for (ActiveProgrammers programmer : programmers) {
+                if (!programmer.isActive()) {
+                    totalLeft += programmer.getWorkedDays();
+                }
                 if (programmer.getProject().equals(name)) {
                     firstName = programmer.getFirstName();
                     lastName = programmer.getLastName();

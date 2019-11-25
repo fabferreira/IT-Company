@@ -44,6 +44,5 @@ public class ProjectTeam {
     }
 
     public void printProjectReport() {
-
     }
 }

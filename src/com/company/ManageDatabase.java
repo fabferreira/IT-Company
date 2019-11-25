@@ -72,11 +72,23 @@ public class ManageDatabase {
         }
     }
 
-    public static void save(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers) {
+    public static void save(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, LocalDate date) {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse("data.xml");
+
+            NodeList dateList = doc.getElementsByTagName("date");
+            //Delete projects from document
+            for (int i = 0; i < dateList.getLength(); i++) {
+                Node eachNode = dateList.item(i);
+                eachNode.getParentNode().removeChild(eachNode);
+            }
+
+            // project element
+            NodeList dateGroup = doc.getElementsByTagName("itCompany");
+            Element fileDate = doc.createElement("date");
+            dateGroup.item(0).appendChild(fileDate);
 
             NodeList projectList = doc.getElementsByTagName("project");
             //Delete projects from document
@@ -212,16 +224,18 @@ public class ManageDatabase {
     }
 
     public static void newFile(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers) {
+        // date
+        LocalDate date = LocalDate.now();
 
         // create project objects to add
         ProjectTeam proj1 = new ProjectTeam(1, "Java SE", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-11-30"));
         ProjectTeam proj2 = new ProjectTeam(2, "Angular", LocalDate.parse("2019-09-01"), LocalDate.parse("2019-12-31"));
 
         // create programmer objects to add
-        ActiveProgrammers prog1 = new ActiveProgrammers(1, "Joaquim", "Marmita", true, "Java SE", "backend", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-11-10"), 0, LocalDate.now().getMonthValue(), 45.00, "full");
-        ActiveProgrammers prog2 = new ActiveProgrammers(2, "Maria", "Artista", true, "Java SE", "design", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-10-31"), 0, LocalDate.now().getMonthValue(), 45.00, "half");
-        ActiveProgrammers prog3 = new ActiveProgrammers(3, "Manuel", "Geleira", true, "Angular", "frontend", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-11-11"), 0, LocalDate.now().getMonthValue(), 45.00, "full");
-        ActiveProgrammers prog4 = new ActiveProgrammers(4, "Joana", "Dar't", true, "Angular", "design", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-10-31"), 0, LocalDate.now().getMonthValue(), 45.00, "half");
+        ActiveProgrammers prog1 = new ActiveProgrammers(1, "Joaquim", "Marmita", true, "Java SE", "backend", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-12-10"), 0, LocalDate.now().getMonthValue(), 45.00, "full");
+        ActiveProgrammers prog2 = new ActiveProgrammers(2, "Maria", "Artista", true, "Java SE", "design", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-11-30"), 0, LocalDate.now().getMonthValue(), 45.00, "half");
+        ActiveProgrammers prog3 = new ActiveProgrammers(3, "Manuel", "Geleira", true, "Angular", "frontend", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-12-11"), 0, LocalDate.now().getMonthValue(), 45.00, "full");
+        ActiveProgrammers prog4 = new ActiveProgrammers(4, "Joana", "Dar't", true, "Angular", "design", LocalDate.parse("2019-10-01"), LocalDate.parse("2019-11-30"), 0, LocalDate.now().getMonthValue(), 45.00, "half");
 
         // add objects to projects arraylist
         projects.add(proj1);
@@ -256,7 +270,7 @@ public class ManageDatabase {
         }
 
         // save info to the file
-        save(projects,programmers);
+        save(projects,programmers, date);
     }
 
     public static void updateProject(ArrayList<ProjectTeam> Element, int id, String tagName, String newValue) {
