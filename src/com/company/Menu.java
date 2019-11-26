@@ -153,7 +153,7 @@ public class Menu {
         String nameProj = "";
         LocalDate newEndDate = null;
         LocalDate endDate = null;
-        System.out.println("Please choose a Project to remove");
+        System.out.println("Please choose a Project to extend");
         for (int i = 0; i < projects.size(); i++) {
             System.out.println(i+1 + " " + projects.get(i).getName());
         }
@@ -191,21 +191,13 @@ public class Menu {
             }
         }
 
-
-        System.out.println("Do you want to extend all project programmers end date? (s/n)");
-        String refreshProgrammers = scanner.nextLine();
-        while (!refreshProgrammers.toLowerCase().equals("s") || !refreshProgrammers.toLowerCase().equals("n")) {
-            System.out.println("Please choose a valid option (s/n)");
-            refreshProgrammers = scanner.nextLine();
-        }
-        if (refreshProgrammers.equals("s")) {
-            for (ActiveProgrammers programmer : programmers) {
-                if (programmer.getProject().equals(nameProj)) {
-                    programmer.setEndDate(newEndDate);
-                }
+        for (ActiveProgrammers programmer : programmers) {
+            if (programmer.getProject().equals(nameProj)) {
+                programmer.setEndDate(newEndDate);
             }
         }
         System.out.println("Project successfully remove and programmers inactivated");
+        System.out.println("All programmer end dates in this project were also changed");
     }
 
     private static void editProgMenu(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, LocalDate date) {
