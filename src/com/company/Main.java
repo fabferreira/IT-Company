@@ -18,6 +18,7 @@ public class Main {
     }
 
     private static void updateData(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, LocalDate date) {
+        // update all the data due to date changing
         for (ProjectTeam proj : projects) {
             if (proj.getEndDate().isBefore(date)){
                 Menu.removeProject(projects, programmers, date);

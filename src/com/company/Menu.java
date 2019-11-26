@@ -148,6 +148,7 @@ public class Menu {
     }
 
     private static void extendProject(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers) {
+        // change end date of an existing project
         Scanner scanner = new Scanner(System.in);
         String nameProj = "";
         LocalDate newEndDate = null;
@@ -517,7 +518,11 @@ public class Menu {
         while (!next) {
             try {
                 wage = Double.parseDouble(scanner.nextLine());
-                next = true;
+                if (wage > 0) {
+                    next = true;
+                } else {
+                    System.out.println("Please insert a valid number");
+                }
             } catch (Exception e) {
                 System.out.println("Please insert a valid number");
             }
@@ -639,7 +644,7 @@ public class Menu {
         System.out.println("Please select the programmer:");
         for (int i = 0; i < programmers.size(); i++) {
             if (programmers.get(i).isActive()) {
-                System.out.println(i+1 + " " + programmers.get(i).getFirstName() + programmers.get(i).getLastName());
+                System.out.println(i+1 + ". " + programmers.get(i).getFirstName() + " " + programmers.get(i).getLastName());
             }
         }
         while (!next) {
@@ -669,7 +674,7 @@ public class Menu {
         System.out.println("Please select the programmer:");
         for (int i = 0; i < programmers.size(); i++) {
             if (programmers.get(i).isActive()) {
-                System.out.println(i+1 + " " + programmers.get(i).getFirstName() + programmers.get(i).getLastName());
+                System.out.println(i+1 + ". " + programmers.get(i).getFirstName() + " " + programmers.get(i).getLastName());
             }
         }
         while (!next) {
@@ -704,7 +709,7 @@ public class Menu {
             String end = scanner.nextLine();
             try {
                 endDate = LocalDate.parse(end);
-                if (endDate.isBefore(endProject) || endDate.isEqual(endProject) && endDate.isAfter(oldDate)) {
+                if ((endDate.isBefore(endProject) || endDate.isEqual(endProject)) && endDate.isAfter(oldDate)) {
                     next = true;
                 } else {
                     System.out.println("Please insert a date between " + oldDate + " and " + endProject);
@@ -724,7 +729,7 @@ public class Menu {
         int id = -1;
         System.out.println("Please select the programmer:");
         for (int i = 0; i < programmers.size(); i++) {
-                System.out.println(i+1 + " " + programmers.get(i).getFirstName() + programmers.get(i).getLastName());
+                System.out.println(i+1 + ". " + programmers.get(i).getFirstName() + " " + programmers.get(i).getLastName());
         }
         while (!next) {
             String idStr = scanner.nextLine();
@@ -746,7 +751,11 @@ public class Menu {
         while (!next) {
             try {
                 wage = Double.parseDouble(scanner.nextLine());
-                next = true;
+                if (wage > 0) {
+                    next = true;
+                } else {
+                    System.out.println("Please insert a valid number");
+                }
             } catch (Exception e) {
                 System.out.println("Please insert a valid number");
             }
@@ -761,7 +770,7 @@ public class Menu {
         int id = -1;
         System.out.println("Please select the programmer:");
         for (int i = 0; i < programmers.size(); i++) {
-            System.out.println(i+1 + " " + programmers.get(i).getFirstName() + programmers.get(i).getLastName());
+            System.out.println(i+1 + ". " + programmers.get(i).getFirstName() + " " + programmers.get(i).getLastName());
         }
         while (!next) {
             String idStr = scanner.nextLine();
