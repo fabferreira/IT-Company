@@ -465,9 +465,7 @@ public class Menu {
         for (ActiveProgrammers programmer : programmers) {
             if (!programmer.isActive()) {
                 inactProg.add(programmer.getFirstName() + " " + programmer.getLastName());
-                System.out.println(programmer.getFirstName() + " " + programmer.getLastName());
                 inactProgId.add(programmer.getId());
-                System.out.println(programmer.getId());
                 isInactive = true;
             }
         }
