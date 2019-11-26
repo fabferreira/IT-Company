@@ -183,7 +183,7 @@ public class Menu {
                 if (newEndDate.isAfter(endDate)) {
                     next = true;
                 } else {
-                    System.out.println("Please insert a date after the current termination date");
+                    System.out.println("Please insert a date after " + endDate);
                 }
             } catch (Exception e) {
                 System.out.println("Please insert a valid date (yyyy-MM-dd).");
@@ -356,7 +356,7 @@ public class Menu {
                 if (endDate.isAfter(date)) {
                     next = true;
                 } else {
-                    System.out.println("Please insert a date of tomorrow or after");
+                    System.out.println("Please insert a date after " + date);
                 }
             } catch (Exception e) {
                 System.out.println("Please insert a valid date (yyyy-MM-dd).");
@@ -422,8 +422,8 @@ public class Menu {
     private static void addProgrammer(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, String project, LocalDate endProject, LocalDate startDate) {
         Scanner scanner = new Scanner(System.in);
         int id = 0;
-        String firstName = "";
-        String lastName = "";
+        String firstName;
+        String lastName;
         boolean isActive = false;
         String activity;
         LocalDate endDate = LocalDate.parse("0001-01-01");
@@ -553,10 +553,10 @@ public class Menu {
                 String end = scanner.nextLine();
                 try {
                     endDate = LocalDate.parse(end);
-                    if (endDate.isBefore(endProject) || endDate.isEqual(endProject) && endDate.isAfter(startDate)) {
+                    if ((endDate.isBefore(endProject) || endDate.isEqual(endProject)) && endDate.isAfter(startDate)) {
                         next = true;
                     } else {
-                        System.out.println("Please insert a date of tomorrow or after and not after the end of the project");
+                        System.out.println("Please insert a date between " + startDate + " and " + endProject);
                     }
                 } catch (Exception e) {
                     System.out.println("Please insert a valid date (yyyy-MM-dd).");
@@ -580,7 +580,7 @@ public class Menu {
         if (askName) {
             System.out.println("Please choose a programmer to inactivate");
             for (int i = 0; i < programmers.size(); i++) {
-                System.out.println(i + 1 + " " + programmers.get(i).getFirstName() + programmers.get(i).getLastName());
+                System.out.println(i + 1 + " " + programmers.get(i).getFirstName() + " " + programmers.get(i).getLastName());
             }
             boolean next = false;
             while (!next) {
@@ -707,7 +707,7 @@ public class Menu {
                 if (endDate.isBefore(endProject) || endDate.isEqual(endProject) && endDate.isAfter(oldDate)) {
                     next = true;
                 } else {
-                    System.out.println("Please insert a date after  the current end Date and not after the end of the project");
+                    System.out.println("Please insert a date between " + oldDate + " and " + endProject);
                 }
             } catch (Exception e) {
                 System.out.println("Please insert a valid date (yyyy-MM-dd).");

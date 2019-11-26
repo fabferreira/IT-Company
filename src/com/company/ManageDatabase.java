@@ -129,7 +129,6 @@ public class ManageDatabase {
             for (ProjectTeam project : projects) {
                 String id = String.valueOf(project.getId());
                 String name = project.getName();
-                System.out.println();
                 String startDate = project.getStartDate().toString();
                 String endDate = project.getEndDate().toString();
 
