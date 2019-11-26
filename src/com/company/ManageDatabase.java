@@ -43,6 +43,8 @@ public class ManageDatabase {
     }
 
     static void load(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers) {
+        projects.clear();
+        programmers.clear();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder builder = factory.newDocumentBuilder();
