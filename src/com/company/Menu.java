@@ -507,43 +507,42 @@ public class Menu {
                     System.out.println("Please insert a valid option (s/n)");
                 }
             }
-        } else {
-            System.out.println("Please Insert First Name");
-            firstName = scanner.nextLine();
-            System.out.println("Please Insert Last Name");
-            lastName = scanner.nextLine();
-            next = false;
-            System.out.println("Please Insert Wage value (€/day)");
-            while (!next) {
-                try {
-                    wage = Double.parseDouble(scanner.nextLine());
-                    next = true;
-                } catch (Exception e) {
-                    System.out.println("Please insert a valid number");
-                }
-            }
-            next = false;
-            System.out.println("Will receive full salary (f) or half salary (h)");
-            while(!next) {
-                String option = scanner.nextLine();
-                if (option.toLowerCase().equals("f")) {
-                    salary = "full";
-                    next = true;
-                } else if (option.toLowerCase().equals("h")){
-                    salary = "half";
-                    next = true;
-                } else {
-                    System.out.println("Please insert a valid option.");
-                }
-            }
-            int lastId = 0;
-            for (ActiveProgrammers prog : programmers) {
-                if (prog.getId() > lastId) {
-                    lastId = prog.getId();
-                }
-            }
-            id = lastId + 1;
         }
+        System.out.println("Please Insert First Name");
+        firstName = scanner.nextLine();
+        System.out.println("Please Insert Last Name");
+        lastName = scanner.nextLine();
+        next = false;
+        System.out.println("Please Insert Wage value (€/day)");
+        while (!next) {
+            try {
+                wage = Double.parseDouble(scanner.nextLine());
+                next = true;
+            } catch (Exception e) {
+                System.out.println("Please insert a valid number");
+            }
+        }
+        next = false;
+        System.out.println("Will receive full salary (f) or half salary (h)");
+        while(!next) {
+            String option = scanner.nextLine();
+            if (option.toLowerCase().equals("f")) {
+                salary = "full";
+                next = true;
+            } else if (option.toLowerCase().equals("h")){
+                salary = "half";
+                next = true;
+            } else {
+                System.out.println("Please insert a valid option.");
+            }
+        }
+        int lastId = 0;
+        for (ActiveProgrammers prog : programmers) {
+            if (prog.getId() > lastId) {
+                lastId = prog.getId();
+            }
+        }
+        id = lastId + 1;
         if (project.equals("")) {
             ActiveProgrammers newProgrammer = new ActiveProgrammers(id, firstName, lastName, wage, salary);
             programmers.add(newProgrammer);
