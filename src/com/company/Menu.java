@@ -168,8 +168,8 @@ public class Menu {
                 continue;
             }
             if (0 <= id && id < projects.size()) {
-                nameProj = projects.get(id - 1).getName();
-                endDate = projects.get(id - 1).getEndDate();
+                nameProj = projects.get(id).getName();
+                endDate = projects.get(id).getEndDate();
                 next = true;
             }
         }
@@ -465,7 +465,9 @@ public class Menu {
         for (ActiveProgrammers programmer : programmers) {
             if (!programmer.isActive()) {
                 inactProg.add(programmer.getFirstName() + " " + programmer.getLastName());
+                System.out.println(programmer.getFirstName() + " " + programmer.getLastName());
                 inactProgId.add(programmer.getId());
+                System.out.println(programmer.getId());
                 isInactive = true;
             }
         }
@@ -489,7 +491,6 @@ public class Menu {
                     }
                     boolean isID = false;
                     while (!isID) {
-
                         String idString = scanner.nextLine();
                         int idInt = -1;
                         try {
@@ -583,9 +584,15 @@ public class Menu {
                 ActiveProgrammers newProgrammer = new ActiveProgrammers(id, firstName, lastName, true, project, activity, startDate, endDate, workedDays, startDate.getMonthValue(), wage, salary);
                 programmers.add(newProgrammer);
             } else {
-                programmers.get(id).setEndDate(endDate);
-                programmers.get(id).setActivity(activity);
-                programmers.get(id).setProject(project);
+                for (ActiveProgrammers programmer : programmers) {
+                    if (programmer.getId() == id) {
+                        programmer.setActive(true);
+                        programmer.setEndDate(endDate);
+                        programmer.setActivity(activity);
+                        programmer.setProject(project);
+                        programmer.setStartDate(startDate);
+                    }
+                 }
             }
             System.out.println("New programmer successfully added");
         }
