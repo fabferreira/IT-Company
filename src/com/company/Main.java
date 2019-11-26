@@ -11,12 +11,13 @@ public class Main {
 
         ManageDatabase.load(projects, programmers);
         LocalDate date = ManageDatabase.loadDate();
-        updateData(projects, programmers, date);
-        Menu.menu(projects, programmers, date);
+        LocalDate newDate = date.plusDays(1);
+        updateData(projects, programmers, newDate);
+        Menu.menu(projects, programmers, newDate);
+
     }
 
     private static void updateData(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, LocalDate date) {
-        date = date.plusDays(1);
         for (ProjectTeam proj : projects) {
             if (proj.getEndDate().isBefore(date)){
                 Menu.removeProject(projects, programmers, date);

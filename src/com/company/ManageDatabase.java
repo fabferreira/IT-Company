@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class ManageDatabase {
 
-    public static LocalDate loadDate() {
+    static LocalDate loadDate() {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -106,6 +106,7 @@ public class ManageDatabase {
             for (int i = 0; i < dateList.getLength(); i++) {
                 Node eachNode = dateList.item(i);
                 eachNode.getParentNode().removeChild(eachNode);
+                i--;
             }
 
             // date element
@@ -119,12 +120,14 @@ public class ManageDatabase {
             for (int i = 0; i < projectList.getLength(); i++) {
                 Node eachNode = projectList.item(i);
                 eachNode.getParentNode().removeChild(eachNode);
+                i--;
             }
 
             //Add projects from List to document
             for (ProjectTeam project : projects) {
                 String id = String.valueOf(project.getId());
                 String name = project.getName();
+                System.out.println();
                 String startDate = project.getStartDate().toString();
                 String endDate = project.getEndDate().toString();
 
@@ -159,6 +162,7 @@ public class ManageDatabase {
             for (int i = 0; i < programmerList.getLength(); i++) {
                 Node eachNode = programmerList.item(i);
                 eachNode.getParentNode().removeChild(eachNode);
+                i--;
             }
 
             //Add programmers from List to document
