@@ -42,7 +42,7 @@ public class ManageDatabase {
         }
     }
 
-    public static void load(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers) {
+    static void load(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers) {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -95,7 +95,7 @@ public class ManageDatabase {
         }
     }
 
-    public static void save(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, LocalDate date) {
+    static void save(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, LocalDate date) {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -247,7 +247,7 @@ public class ManageDatabase {
         }
     }
 
-    public static void newFile(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers) {
+    private static void newFile(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers) {
         // date
         LocalDate date = LocalDate.now().minusDays(1);
 
@@ -297,60 +297,5 @@ public class ManageDatabase {
         save(projects,programmers, date);
     }
 
-    public static void updateProject(ArrayList<ProjectTeam> Element, int id, String tagName, String newValue) {
-        //update Project info in arrayList
-        for (ProjectTeam elem : Element ) {
-            if (elem.getId() == id) {
-                switch (tagName) {
-                    case "name":
-                        elem.setName(newValue);
 
-                    case "startDate":
-                        elem.setStartDate(LocalDate.parse(newValue));
-
-                    case "endDate":
-                        elem.setEndDate(LocalDate.parse(newValue));
-
-                    default:
-                        System.out.println("wrong tagName");
-                }
-            }
-        }
-    }
-
-    public static void updateProgrammer(ArrayList<ActiveProgrammers> Element, int id, String tagName, String newValue) {
-        //update Programmer info in arrayList
-        for (ActiveProgrammers elem : Element ) {
-            if (elem.getId() == id) {
-                switch (tagName) {
-                    case "firstName":
-                        elem.setFirstName(newValue);
-
-                    case "lastName":
-                        elem.setLastName(newValue);
-
-                    case "project":
-                        elem.setProject(newValue);
-
-                    case "activity":
-                        elem.setProject(newValue);
-
-                    case "startDate":
-                        elem.setStartDate(LocalDate.parse(newValue));
-
-                    case "endDate":
-                        elem.setEndDate(LocalDate.parse(newValue));
-
-                    case "wage":
-                        elem.setEndDate(LocalDate.parse(newValue));
-
-                    case "salary":
-                        elem.setEndDate(LocalDate.parse(newValue));
-
-                    default:
-                        System.out.println("wrong tagName");
-                }
-            }
-        }
-    }
 }

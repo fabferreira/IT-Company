@@ -11,25 +11,21 @@ public class Main {
 
         ManageDatabase.load(projects, programmers);
         LocalDate date = ManageDatabase.loadDate();
-        LocalDate newDate = date.plusDays(1);
-        Menu.menu(projects, programmers, newDate);
+        updateData(projects, programmers, date);
+        Menu.menu(projects, programmers, date);
+    }
 
-
-//        Menu.showReport(projects, programmers, newDate);
-
-//        for (ProjectTeam project : projects) {
-//            System.out.println(project.getId());
-//            System.out.println(project.getName());
-//            System.out.println(project.getStartDate());
-//        }
-//
-//        for (ActiveProgrammers programmer : programmers) {
-//            System.out.println(programmer.getId());
-//            System.out.println(programmer.getFirstName());
-//            System.out.println(programmer.getStartDate());
-//        }
-
-
-//	     Menu.menu(projects, programmers);
+    private static void updateData(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, LocalDate date) {
+        date = date.plusDays(1);
+        for (ProjectTeam proj : projects) {
+            if (proj.getEndDate().isBefore(date)){
+                Menu.removeProject(projects, programmers, date);
+            }
+        }
+        for (int i = 0; i < programmers.size(); i++) {
+            if (programmers.get(i).getEndDate().isBefore(date)) {
+                Menu.inactivateProgrammer(projects, programmers, date, i);
+            }
+        }
     }
 }

@@ -41,6 +41,7 @@ public class Menu {
                 case 6:
                     quit = true;
                     ManageDatabase.save(projects,programmers, date);
+                    showReport(projects, programmers, date);
                     continue;
 
                 default:
@@ -388,7 +389,7 @@ public class Menu {
         System.out.println("New project successfully added");
     }
 
-    private static void removeProject(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, LocalDate date) {
+    public static void removeProject(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, LocalDate date) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please choose a Project to remove");
         for (int i = 0; i < projects.size(); i++) {
@@ -570,7 +571,7 @@ public class Menu {
         }
     }
 
-    private static void inactivateProgrammer(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, LocalDate date, int progId) {
+    public static void inactivateProgrammer(ArrayList<ProjectTeam> projects, ArrayList<ActiveProgrammers> programmers, LocalDate date, int progId) {
         Scanner scanner = new Scanner(System.in);
         String nameProj = "";
         LocalDate endDate = null;
