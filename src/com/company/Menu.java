@@ -122,7 +122,7 @@ public class Menu {
                     continue;
 
                 case 2:
-                    addProgrammer(projects, programmers, "exists", LocalDate.parse("0001-01-01"), date);
+                    addProgrammer(projects, programmers, "exist", LocalDate.parse("0001-01-01"), date);
                     continue;
 
                 case 3:
@@ -239,7 +239,7 @@ public class Menu {
                     changeSalary(programmers);
                     continue;
 
-                case 9:
+                case 5:
                     continue;
 
                 default:
@@ -376,6 +376,7 @@ public class Menu {
             }
             if (numberProg < 2) {
                 addProgrammer(projects, programmers, name, endDate, date);
+            } else {
                 next = true;
             }
         }
@@ -407,8 +408,8 @@ public class Menu {
                 continue;
             }
             if (0 <= id && id < projects.size()) {
-                String nameProj = projects.get(id - 1).getName();
-                projects.remove(id - 1);
+                String nameProj = projects.get(id).getName();
+                projects.remove(id);
                 for (int i = 0; i < programmers.size(); i++) {
                     if (programmers.get(i).getProject().equals(nameProj)) {
                         inactivateProgrammer(projects, programmers, date, i);
@@ -425,7 +426,6 @@ public class Menu {
         int id = 0;
         String firstName = "";
         String lastName = "";
-        boolean isActive = false;
         String activity;
         LocalDate endDate = LocalDate.parse("0001-01-01");
         int workedDays = 0;
@@ -434,9 +434,9 @@ public class Menu {
 
         // get existing project name, end date
         if (project.equals("exist")) {
-            System.out.println("Please choose a Project to remove");
+            System.out.println("Please choose a Project");
             for (int i = 0; i < projects.size(); i++) {
-                System.out.println(i+1 + " " + projects.get(i).getName());
+                System.out.println(i+1 + ". " + projects.get(i).getName());
             }
             boolean next = false;
             while(!next) {
@@ -449,8 +449,8 @@ public class Menu {
                     continue;
                 }
                 if (0 <= projId && projId < projects.size()) {
-                    project = projects.get(projId - 1).getName();
-                    endProject = projects.get(projId - 1).getEndDate();
+                    project = projects.get(projId).getName();
+                    endProject = projects.get(projId).getEndDate();
                     next = true;
                 }
             }
@@ -471,8 +471,12 @@ public class Menu {
         }
         if (project.equals("")) {
             isInactive = false;
-        } else if (project.equals("exists")) {
+        } else if (project.equals("exist")) {
             isInactive = true;
+        }
+        boolean askName = false;
+        if (!isInactive) {
+            askName = true;
         }
         if (isInactive) {
             System.out.println("Do you want to add currently inactive programmers? (s/n)");
@@ -497,26 +501,20 @@ public class Menu {
                             System.out.println("Please insert a valid option");
                         } else {
                             id = inactProgId.get(idInt-1);
-                            for (ActiveProgrammers programmer : programmers) {
-                                if (programmer.getId() == id) {
-                                    firstName = programmer.getFirstName();
-                                    lastName = programmer.getLastName();
-                                    workedDays = programmer.getWorkedDays();
-                                    wage = programmer.getWage();
-                                    salary = programmer.getSalary();
-                                }
-                            }
                             isID = true;
                             next = true;
                         }
                     }
                 } else if (option.toLowerCase().equals("n")) {
                     next = true;
+                    askName = true;
                 } else {
                     System.out.println("Please insert a valid option (s/n)");
                 }
             }
-        } else {
+        }
+
+        if (askName) {
             System.out.println("Please Insert First Name");
             firstName = scanner.nextLine();
             System.out.println("Please Insert Last Name");
@@ -580,8 +578,15 @@ public class Menu {
             }
             System.out.println("Please insert the activity of the programmer");
             activity = scanner.nextLine();
-            ActiveProgrammers newProgrammer = new ActiveProgrammers(id, firstName, lastName, true, project, activity, startDate, endDate, workedDays, startDate.getMonthValue(), wage, salary);
-            programmers.add(newProgrammer);
+
+            if (askName) {
+                ActiveProgrammers newProgrammer = new ActiveProgrammers(id, firstName, lastName, true, project, activity, startDate, endDate, workedDays, startDate.getMonthValue(), wage, salary);
+                programmers.add(newProgrammer);
+            } else {
+                programmers.get(id).setEndDate(endDate);
+                programmers.get(id).setActivity(activity);
+                programmers.get(id).setProject(project);
+            }
             System.out.println("New programmer successfully added");
         }
     }
@@ -630,20 +635,26 @@ public class Menu {
 
         if (progId == -1) {
             int totalProg = 0;
-            for (ActiveProgrammers prog : programmers) {
-                if (prog.getProject().equals(nameProj)) {
-                    totalProg ++;
-                }
-            }
-            if (totalProg < 2) {
-                System.out.println("your project is now with less than 2 programmers, you need to add another one");
-                for (ProjectTeam proj : projects) {
-                    if (proj.getName().equals(nameProj)) {
-                        endDate = proj.getEndDate();
+            boolean next = false;
+            while (!next) {
+                for (ActiveProgrammers prog : programmers) {
+                    if (prog.getProject().equals(nameProj)) {
+                        totalProg ++;
                     }
                 }
-                addProgrammer(projects, programmers, nameProj, endDate, date);
+                if (totalProg < 2) {
+                    System.out.println("your project is now with less than 2 programmers, you need to add another one");
+                    for (ProjectTeam proj : projects) {
+                        if (proj.getName().equals(nameProj)) {
+                            endDate = proj.getEndDate();
+                        }
+                    }
+                    addProgrammer(projects, programmers, nameProj, endDate, date);
+                } else {
+                    next = true;
+                }
             }
+
         }
     }
 
