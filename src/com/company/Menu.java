@@ -280,23 +280,15 @@ public class Menu {
                     activity = programmer.getActivity();
                     startDate = programmer.getStartDate();
                     endDate = programmer.getEndDate();
-                    duration = DAYS.between(startDate, endDate);
-                    if (startDate.getMonthValue() != date.getMonthValue()) {
-                        daysWorked = date.getDayOfMonth() + programmer.getWorkedDays();
-                    } else {
-                        daysWorked = date.getDayOfMonth() - startDate.getDayOfMonth() + 1 + programmer.getWorkedDays();
-                    }
+                    duration = programmer.calcDuration(startDate, endDate);
+                    daysWorked = programmer.calcWorkedDays(startDate, date, programmer.getWorkedDays());
                     totalDays += daysWorked;
                     if (endDate.getMonthValue() != date.getMonthValue()) {
                         totalLeft += date.lengthOfMonth() - date.getDayOfMonth();
                     } else {
                         totalLeft += endDate.getDayOfMonth() - date.getDayOfMonth();
                     }
-                    if (programmer.getSalary().equals("full")) {
-                        salary = daysWorked * programmer.getWage();
-                    } else if (programmer.getSalary().equals("half")) {
-                        salary = daysWorked * programmer.getWage() * 0.5;
-                    }
+                    salary = programmer.calcSalary(programmer.getSalary(), programmer.getWage(), daysWorked);
                     toPrint.add(lastName + ", " + firstName + ", in charge of " + activity + " from " + startDate + " to " + endDate
                             + " (duration " + duration + " days), has worked " + daysWorked + " days this month (total salary $" + salary + ")");
                 }

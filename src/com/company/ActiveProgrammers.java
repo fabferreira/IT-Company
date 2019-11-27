@@ -2,6 +2,8 @@ package com.company;
 
 import java.time.LocalDate;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 public class ActiveProgrammers implements Programmers{
     private int id;
     private String firstName;
@@ -127,26 +129,29 @@ public class ActiveProgrammers implements Programmers{
         this.salary = salary;
     }
 
+
     @Override
-    public void editPersonalInfo() {
+    public long calcDuration(LocalDate startDate, LocalDate endDate) {
+        return DAYS.between(startDate, endDate);
     }
 
     @Override
-    public void editProjectDetails() {
+    public int calcWorkedDays(LocalDate startDate, LocalDate currentDate, int workedDays) {
+        if (startDate.getMonthValue() != currentDate.getMonthValue()) {
+            return currentDate.getDayOfMonth() + workedDays;
+        } else {
+            return currentDate.getDayOfMonth() - startDate.getDayOfMonth() + 1 + workedDays;
+        }
     }
 
     @Override
-    public int calcDuration() {
-        return 0;
-    }
-
-    @Override
-    public int calcWorkedDays() {
-        return 0;
-    }
-
-    @Override
-    public double calcSalary() {
-        return 0;
+    public double calcSalary(String salary, double wage, int daysWorked) {
+        if (salary.equals("full")) {
+            return daysWorked * wage;
+        } else if (salary.equals("half")) {
+            return daysWorked * wage * 0.5;
+        } else {
+            return 0.00;
+        }
     }
 }
