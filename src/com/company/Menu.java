@@ -349,7 +349,7 @@ public class Menu {
         }
         while (!next) {
             name = scanner.nextLine();
-            if (projNames.contains(name.toLowerCase())) {
+            if (projNames.contains(name.toLowerCase()) || name.equals("")) {
                 System.out.println("Choose a different name, this name already exists in the system");
             } else {
                 next = true;
@@ -524,9 +524,25 @@ public class Menu {
 
         if (askName) {
             System.out.println("Please Insert First Name");
-            firstName = scanner.nextLine();
+            next = false;
+            while(!next) {
+                firstName = scanner.nextLine();
+                if (!firstName.equals("")) {
+                    next = true;
+                } else {
+                    System.out.println("Please insert valid name");
+                }
+            }
             System.out.println("Please Insert Last Name");
-            lastName = scanner.nextLine();
+            next = false;
+            while(!next) {
+                lastName = scanner.nextLine();
+                if (!lastName.equals("")) {
+                    next = true;
+                } else {
+                    System.out.println("Please insert valid name");
+                }
+            }
             next = false;
             System.out.println("Please Insert Wage value (€/day)");
             while (!next) {
@@ -585,7 +601,15 @@ public class Menu {
                 }
             }
             System.out.println("Please insert the activity of the programmer");
-            activity = scanner.nextLine();
+            next = false;
+            while(!next) {
+                activity = scanner.nextLine();
+                if (!activity.equals("")) {
+                    next = true;
+                } else {
+                    System.out.println("Please insert valid activity");
+                }
+            }
 
             if (askName) {
                 ActiveProgrammers newProgrammer = new ActiveProgrammers(id, firstName, lastName, true, project, activity, startDate, endDate, workedDays, startDate.getMonthValue(), wage, salary);
@@ -698,7 +722,16 @@ public class Menu {
             }
         }
         System.out.println("Please insert the new activity:");
-        String newActivity = scanner.nextLine();
+        String newActivity = "";
+        next = false;
+        while(!next) {
+            newActivity = scanner.nextLine();
+            if (!newActivity.equals("")) {
+                next = true;
+            } else {
+                System.out.println("Please insert valid activity");
+            }
+        }
         programmers.get(id).setActivity(newActivity);
         System.out.println("Activity successfully changed");
     }
