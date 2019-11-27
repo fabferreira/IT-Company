@@ -435,7 +435,7 @@ public class Menu {
         int id = 0;
         String firstName = "";
         String lastName = "";
-        String activity;
+        String activity = "";
         LocalDate endDate = LocalDate.parse("0001-01-01");
         int workedDays = 0;
         double wage = 0.00;
