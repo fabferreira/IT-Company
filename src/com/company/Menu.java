@@ -16,7 +16,14 @@ public class Menu {
 
         while(!quit) {
             MainMenu();
-            int action = scanner.nextInt();
+            int action;
+            String idStr = scanner.nextLine();
+            try {
+                action = Integer.parseInt(idStr);
+            } catch (Exception e) {
+                System.out.println("Please insert a valid option");
+                continue;
+            }
             switch(action) {
                 case 1:
                     projectsMenu(projects,programmers, date);
@@ -76,7 +83,13 @@ public class Menu {
             System.out.println("3. Extend Project");
             System.out.println("4. Back");
 
-            actproj = scanner.nextInt();
+            String idStr = scanner.nextLine();
+            try {
+                actproj = Integer.parseInt(idStr);
+            } catch (Exception e) {
+                System.out.println("Please insert a valid option");
+                continue;
+            }
             switch (actproj) {
                 case 1:
                     addProject(projects, programmers, date);
@@ -115,7 +128,13 @@ public class Menu {
             System.out.println("4. Inactivate Programmer");
             System.out.println("5. Back");
 
-            actprog = scanner.nextInt();
+            String idStr = scanner.nextLine();
+            try {
+                actprog = Integer.parseInt(idStr);
+            } catch (Exception e) {
+                System.out.println("Please insert a valid option");
+                continue;
+            }
             switch (actprog) {
                 case 1:
                     addProgrammer(projects, programmers, "", LocalDate.parse("0001-01-01"), date);
@@ -213,7 +232,13 @@ public class Menu {
             System.out.println("4. Edit % Salary");
             System.out.println("5. Back");
 
-            edprog = scanner.nextInt();
+            String idStr = scanner.nextLine();
+            try {
+                edprog = Integer.parseInt(idStr);
+            } catch (Exception e) {
+                System.out.println("Please insert a valid option");
+                continue;
+            }
             switch (edprog) {
                 case 1:
                     changeActivity(programmers);
